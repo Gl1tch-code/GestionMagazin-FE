@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portail de Connexion</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-green: #5BD99E;
+            --dark-green: #3B8C5E;
+            --dark-navy: #2C3A40;
+            --soft-gray: #f4f7ff;
+            --desc-gray: #858585;
+        }
+
+        * {
+            box-sizing: border-box;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--soft-gray) 0%, #e0e8f3 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .login-wrapper {
+            width: 1200px;
+            height: 600px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            display: flex;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .login-image {
+            flex: 1;
+            background: url('images/login_bg.png') no-repeat center center;
+            background-size: cover;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(91, 217, 158, 0.6) 0%, rgba(59, 140, 94, 0.6) 100%);
+        }
+
+        .login-content {
+            flex: 1;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .logo {
+            width: 150px;
+            margin: 0 auto 30px;
+            display: block;
+            /* filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1)); */
+        }
+
+        .portal-section,
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            text-align: center;
+            
+        }
+        .login-form .content{
+            width: 80%;
+            #employeeLoginFormform{
+                margin-top: 50px;
+            }
+            #adminLoginFormform{
+                margin-top: 50px;
+            }
+        }
+
+        .btn-portal {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            border: none;
+            color: white;
+        }
+
+        .btn-employee {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+        }
+
+        .btn-admin {
+            background: linear-gradient(135deg, var(--dark-navy) 0%, #1a2228 100%);
+        }
+
+        .btn-admin:hover {
+            color: var(--desc-gray);
+        }
+
+        .login-form {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 50px;
+            background: white;
+            transform: translateX(100%);
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .login-form.active {
+            transform: translateX(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            padding: 12px;
+            border-color: #e0e0e0;
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+        }
+
+        .btn-back {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: none;
+            border: none;
+            color: var(--dark-navy);
+        }
+        .description {
+            color: var(--desc-gray);
+        }
+        .login-error-msg-container{
+            width: 100%; 
+            text-align: start; 
+            margin-top: 15px;
+        }
+        .login-error-msg{
+            color: #ED4337;
+            display: none;
+        }
+        .admin-login-error-msg{
+            color: #ED4337;
+            display: none;
+        }
+        #loader, #admin-loader{
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-wrapper">
+        <div class="login-image"></div>
+        <div class="login-content">
+            <img src="images/logo.png" alt="Logo" class="logo">
+
+            <div id="portalSection" class="portal-section">
+                <h2>Sélectionnez Votre Portail</h2>
+                <button class="btn btn-portal btn-employee" onclick="showLoginForm('employee')">
+                    <i class="fas fa-user-tie"></i> Portail des employés
+                </button>
+                <button class="btn btn-portal btn-admin" onclick="showLoginForm('admin')">
+                    <i class="fas fa-user-shield"></i> Portail des administrateurs
+                </button>
+                <p class="description">Système de gestion de la commune de Taounate</p>
+            </div>
+
+            <div id="employeeLoginForm" class="login-form">
+                <button class="btn btn-back" onclick="backToPortal()">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div></div>
+                <div class="content">
+                    <h3>Connexion Employé</h3>
+                    <form id="employeeLoginFormform">
+                        <input type="text" id="employeeUsername" class="form-control" placeholder="Nom d'utilisateur"
+                            required style="margin-bottom: 20px;" />
+                        <input type="password" id="employeePassword" class="form-control" placeholder="Mot de passe"
+                            required />
+                        <div class="login-error-msg-container">
+                            <span id="login-error-msg" class="login-error-msg">Le nom de l'utilisateur ou le mot de pass est incorrect !</span>
+                        </div>
+                        <div style="width: 100%;">
+                            <img id="loader" src="images/loader.gif" style=" margin: 20px auto; width: 50px;"/>
+                        </div>
+                        <button type="submit" id="employeeLoginBtn" class="btn btn-login w-100 mt-3">Se Connecter</button>
+                    </form>
+                </div>
+                <div></div>
+            </div>
+
+            <div id="adminLoginForm" class="login-form">
+                <button class="btn btn-back" onclick="backToPortal()">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div></div>
+                <div class="content">
+                    <h3>Connexion Administrateur</h3>
+                    <form id="adminLoginFormform">
+                        <input type="text" id="adminUsername" class="form-control" placeholder="Nom d'utilisateur" 
+                        required style="margin-bottom: 20px;" />
+                        <input type="password" id="adminPassword" class="form-control" placeholder="Mot de passe" 
+                        required />
+                        <div class="login-error-msg-container">
+                            <span id="admin-login-error-msg" class="admin-login-error-msg">Le nom de l'utilisateur ou le mot de pass est incorrect !</span>
+                        </div>
+                        <div style="width: 100%;">
+                            <img id="admin-loader" src="images/loader.gif" style=" margin: 20px auto; width: 50px;"/>
+                        </div>
+                        <button type="submit" id="adminLoginBtn" class="btn btn-login w-100 mt-3">Se Connecter</button>
+                    </form>
+                </div>
+                <div></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./global.js"></script>
+    <script src="./login.js"></script>
+    
+</body>
+
+</html>

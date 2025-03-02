@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    
+    <!-- theme meta -->
+    <meta name="theme-name" content="quixlab" />
+  
+    <title>Gestion du Magasin</title>
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="images/logo.png">
+    <!-- Pignose Calender -->
+    <link href="../plugins/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
+    <!-- Chartist -->
+    <link rel="stylesheet" href="../plugins/chartist/css/chartist.min.css">
+    <link rel="stylesheet" href="../plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
+    <!-- Custom Stylesheet -->
+    <link href="../css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
+</head>
+
+<body>
+
+    
+    <!--**********************************
+        Main wrapper start
+    ***********************************-->
+    <div id="main-wrapper">
+
+        <!--**********************************
+            Nav header start
+        ***********************************-->
+        <!--**********************************
+            Logo start
+        ***********************************-->
+        <div class="nav-header">
+            <div class="brand-logo">
+                <a href="javascript:void(0)">
+                    <!-- Logo that is always visible -->
+                    <b class="logo-abbr"><img src="images/logo.png" alt="Logo" style="width: 100px; height: auto;"> </b>
+
+                    <!-- Compact logo (logo2) that will be hidden when sidebar is collapsed -->
+                    <img src="../app/images/logo2.png" alt="Compact Logo" class="logo-compact" style="max-width: 250px; height: auto; display: block;">
+                </a>
+            </div>
+        </div>
+        <!--**********************************
+            Logo end
+        ***********************************-->
+        <!--**********************************
+            Nav header end
+        ***********************************-->
+
+        <!--**********************************
+            Début de l'en-tête
+        ***********************************-->
+        <div id="navbar-placeholder"></div>
+        <script src="loadNavbar.js"></script>
+        <!--**********************************
+            Fin de l'en-tête
+        ***********************************-->
+
+        <!--**********************************
+            Sidebar start
+        ***********************************-->
+        <div id="sidebar-placeholder"></div>
+        <script src="loadSidebar.js"></script>
+        <script src="./global.js"></script>
+        <!--**********************************
+            Sidebar end
+        ***********************************-->
+
+        
+
+        <!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body">
+                <!--**********************************
+                DateTime start
+                ***********************************-->
+                <div class="row page-titles mx-0">
+                    <!-- Div to display the current date and time -->
+                    <div class="col p-md-0">
+                        <h4 class="text-dark" id="datetime"></h4>
+                    </div>
+                </div>
+                
+                <!-- Link to the external JavaScript file for handling datetime -->
+                <script src="../js/datetime.js"></script>
+                <!--**********************************
+                    DateTime end
+                ***********************************-->
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <!-- Search and Filter Row -->
+                                <div class="row mb-3">
+                                    <!-- Action Buttons -->
+                                    <div class="col-lg-4">
+                                        <div class="card">
+                                            <div class="card-body p-3">
+                                                <button class="btn btn-primary px-4 mr-2" data-toggle="modal" data-target="#addArticleModal">
+                                                    <i class="fa fa-plus-circle mr-2"></i>Ajouter
+                                                </button>
+                                                <button class="btn btn-green px-4">
+                                                    <i class="fa fa-file-excel mr-2"></i>Exporter
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Date Filter -->
+                                    <div class="col-lg-5">
+                                        <div class="card">
+                                            <div class="card-body p-3">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="form-group mr-2 mb-0">
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text bg-primary text-white">
+                                                                    <i class="fa fa-calendar"></i>
+                                                                </span>
+                                                            </div>
+                                                            <input type="date" class="form-control" id="dateFrom">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group mr-2 mb-0">
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text bg-primary text-white">
+                                                                    <i class="fa fa-calendar"></i>
+                                                                </span>
+                                                            </div>
+                                                            <input type="date" class="form-control" id="dateTo">
+                                                        </div>
+                                                    </div>
+                                                    <button class="btn btn-light" id="clearDates">
+                                                        <i class="fa fa-refresh"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Search Input -->
+                                    <div class="col-lg-3">
+                                        <div class="card">
+                                            <div class="card-body p-3">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text bg-primary text-white">
+                                                            <i class="fa fa-search"></i>
+                                                        </span>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="searchInput" placeholder="Rechercher...">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Table -->
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Article</th>
+                                                <th>Quantité</th>
+                                                <th>Date Ajout</th>
+                                                <th>Magasin</th>
+                                                <th>Fonctionnaire</th>
+                                                <th>Sorties</th>
+                                                <th>Consommations</th>
+                                                <th>Achats</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Papier A4</td>
+                                                <td>500</td>
+                                                <td>2024-01-15</td>
+                                                <td>Magasin Central</td>
+                                                <td>Mohammed Alami</td>
+                                                <td>50</td>
+                                                <td>200</td>
+                                                <td>750</td>
+                                                <td>
+                                                    <div class="d-flex flex-wrap gap-3">
+                                                        <div class="d-flex w-100 gap-2">
+                                                          <!-- First pair -->
+                                                          <button type="button" class="btn btn-primary btn-sm pr-2 m-1 w-50" data-toggle="tooltip" data-placement="top" title="Modifier">
+                                                            <i class="fas fa-edit"></i> Modifier
+                                                          </button>
+                                                          <button type="button" class="btn btn-danger btn-sm pr-2 m-1 w-50" data-toggle="tooltip" data-placement="top" title="Supprimer">
+                                                            <i class="fas fa-trash-alt"></i> Supprimer
+                                                          </button>
+                                                        </div>
+                                                        
+                                                        <div class="d-flex w-100 gap-2">
+                                                          <!-- Second pair -->
+                                                          <button type="button" class="btn btn-green btn-sm pr-2 m-1 w-50" data-toggle="tooltip" data-placement="top" title="Apércu">
+                                                            <i class="fas fa-eye"></i> Apércu
+                                                          </button>
+                                                          <button type="button" class="btn btn-imprimer btn-sm pr-2 m-1 w-50" data-toggle="tooltip" data-placement="top" title="Imprimer">
+                                                            <i class="fas fa-print"></i> Imprimer
+                                                          </button>
+                                                        </div>
+                                                    </div>                                                  
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Stock Modal -->
+            <div class="modal fade" id="addStockModal" tabindex="-1" role="dialog" aria-labelledby="addStockModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addStockModalLabel">Ajouter au Stock</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="addStockForm">
+                                <!-- Row 1: Article and Quantity -->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="stockArticle">Article</label>
+                                            <select class="form-control" id="stockArticle" required>
+                                                <option value="">Sélectionnez l'article</option>
+                                                <option value="Papier A4">Papier A4</option>
+                                                <option value="Stylos">Stylos</option>
+                                                <option value="Classeurs">Classeurs</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="quantity">Quantité</label>
+                                            <input type="number" class="form-control" id="quantity" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Row 2: Date and Magasin -->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="dateAjout">Date d'ajout</label>
+                                            <input type="date" class="form-control" id="dateAjout" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="magasin">Magasin</label>
+                                            <select class="form-control" id="magasin" required>
+                                                <option value="">Sélectionnez le magasin</option>
+                                                <option value="Magasin Central">Magasin Central</option>
+                                                <option value="Magasin Sud">Magasin Sud</option>
+                                                <option value="Magasin Nord">Magasin Nord</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Row 3: Fonctionnaire and Sorties -->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="fonctionnaire">Fonctionnaire</label>
+                                            <select class="form-control" id="fonctionnaire" required>
+                                                <option value="">Sélectionnez le fonctionnaire</option>
+                                                <option value="Mohammed Alami">Mohammed Alami</option>
+                                                <option value="Sara Bennani">Sara Bennani</option>
+                                                <option value="Ahmed Tazi">Ahmed Tazi</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="sorties">Sorties</label>
+                                            <input type="number" class="form-control" id="sorties" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Row 4: Consommations and Achats -->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="consommations">Consommations</label>
+                                            <input type="number" class="form-control" id="consommations" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="achats">Achats</label>
+                                            <input type="number" class="form-control" id="achats" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Ajouter</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Confirm Delete Modal -->
+            <div class="modal fade" id="deleteStockModal" tabindex="-1" role="dialog" aria-labelledby="deleteStockModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteStockModalLabel">Supprimer l'entrée de stock</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Voulez-vous vraiment supprimer cette entrée de stock ?</p>
+                            <button id="confirmDeleteBtn" class="btn btn-danger">Supprimer</button>
+                            <button class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
+        
+        
+        <!--**********************************
+            Footer start
+        ***********************************-->
+        <div class="footer">
+            <div class="copyright">
+                <p>Gestion du Magasin</a> 2025</p>
+            </div>
+        </div>
+        <!--**********************************
+            Footer end
+        ***********************************-->
+    </div>
+    <!--**********************************
+        Main wrapper end
+    ***********************************-->
+
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <script src="../plugins/common/common.min.js"></script>
+    <script src="../js/custom.min.js"></script>
+    <script src="../js/settings.js"></script>
+    <script src="../js/gleek.js"></script>
+    <script src="../js/styleSwitcher.js"></script>
+
+</body>
+
+</html>

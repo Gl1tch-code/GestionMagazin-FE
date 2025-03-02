@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portail de Connexion</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <!-- <link rel="stylesheet" href="./assets/css/connexion.css"> -->
+    <style>
+      :root {
+        --primary-green: #5bd99e;
+        --dark-green: #3b8c5e;
+        --dark-navy: #2c3a40;
+        --soft-gray: #f4f7ff;
+        --desc-gray: #858585;
+      }
+
+      * {
+        box-sizing: border-box;
+        transition: all 0.3s ease-in-out;
+        user-select: none;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(135deg, var(--soft-gray) 0%, #e0e8f3 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        padding: 20px;
+      }
+
+      .login-wrapper {
+        width: 100%;
+        max-width: 1200px;
+        height: 600px;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        display: flex;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .login-image {
+        flex: 1;
+        background: url("../images/login_bg.png") no-repeat center center;
+        background-size: cover;
+        position: relative;
+      }
+
+      .login-image::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          rgba(91, 217, 158, 0.6) 0%,
+          rgba(59, 140, 94, 0.6) 100%
+        );
+      }
+
+      .login-content {
+        flex: 1;
+        padding: 50px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        min-width: 500px;
+      }
+
+      .login-content input {
+        border: solid 1px var(--primary-green);
+      }
+
+      .logo {
+        width: 150px;
+        margin: 0 auto 30px;
+        display: block;
+      }
+
+      .portal-section,
+      .login-form {
+        width: 100%;
+        max-width: 500px;
+        text-align: center;
+        margin: 0 auto;
+      }
+
+      .login-form h3 {
+        margin-bottom: 30px;
+      }
+
+      .btn-portal {
+        display: block;
+        width: 100%;
+        padding: 15px;
+        margin: 15px 0;
+        border-radius: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 500;
+        border: none;
+        color: white;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .btn-portal:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        /* color: var(--soft-gray); */
+      }
+
+      .btn-employee {
+        background: linear-gradient(
+          135deg,
+          var(--primary-green) 0%,
+          var(--dark-green) 100%
+        );
+      }
+
+      .btn-admin {
+        background: linear-gradient(135deg, var(--dark-navy) 0%, #1a2228 100%);
+      }
+
+      .btn-admin:hover {
+        background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+      }
+
+      /* .btn-admin:hover {
+        color: white;
+        opacity: 0.9;
+      } */
+
+      .login-form {
+        display: none;
+        animation: slideIn 0.3s ease-out forwards;
+      }
+
+      .form-group {
+        margin-bottom: 1rem;
+      }
+
+      .form-control {
+        border-radius: 8px;
+        padding: 12px;
+        border: 1px solid #e0e0e0;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .form-control:focus {
+        border-color: var(--primary-green);
+        box-shadow: 0 0 0 2px rgba(91, 217, 158, 0.2);
+      }
+
+      .btn-login {
+        width: 500px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-green) 0%,
+          var(--dark-green) 100%
+        );
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 12px;
+        font-weight: 500;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        font-weight: 700;
+      }
+
+      .btn-login:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(91, 217, 158, 0.3);
+        color: var(--dark-navy);
+        font-weight: 700;
+      }
+
+      .btn-back {
+        position: absolute;
+        left: 20px;
+        background: none;
+        border: none;
+        color: var(--dark-navy);
+        padding: 10px;
+        border-radius: 50%;
+        transition: background-color 0.3s ease;
+      }
+
+      .btn-back:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+
+      .description {
+        color: var(--desc-gray);
+        margin-top: 20px;
+      }
+
+      .error-message {
+        animation: fadeIn 0.3s ease-out;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateX(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .login-wrapper {
+          flex-direction: column;
+          height: auto;
+        }
+
+        .login-image {
+          height: 200px;
+        }
+
+        .login-content {
+          padding: 30px 20px;
+        }
+
+        .btn-back {
+          top: 10px;
+          left: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+  <div class="login-wrapper">
+        <div class="login-image"></div>
+        <div class="login-content">
+            <img src="../images/logo/logo.png" alt="Logo" class="logo">
+
+            <div id="portalSection" class="portal-section">
+                <h2>Sélectionnez Votre Portail</h2>
+                <button class="btn btn-portal btn-employee" onclick="showLoginForm('employee')">
+                    <i class="fas fa-user-tie"></i> Portail des fonctionnaires
+                </button>
+                <button class="btn btn-portal btn-admin" onclick="showLoginForm('admin')">
+                    <i class="fas fa-user-shield"></i> Portail des administrateurs
+                </button>
+                <p class="description">Système de gestion de la commune de Taounate</p>
+            </div>
+
+            <div id="employeeLoginContainer" class="login-form">
+                <button type="button" class="btn btn-back" onclick="backToPortal()">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h3>Connexion Fonctionnaire</h3>
+                <form id="employeeLoginForm" method="POST" onsubmit="return handleLogin(event, 'user')">
+                    <input type="hidden" name="role" value="user">
+                    <div class="form-group">
+                        <input type="text" name="username" class="form-control" placeholder="Nom d'utilisateur" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="password" class="form-control" placeholder="Mot de passe" required>
+                    </div>
+                    <button type="submit" class="btn btn-login">Se Connecter</button>
+                </form>
+            </div>
+
+            <div id="adminLoginContainer" class="login-form">
+                <button type="button" class="btn btn-back" onclick="backToPortal()">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h3>Connexion Administrateur</h3>
+                <form id="adminLoginForm" method="POST" onsubmit="return handleLogin(event, 'admin')">
+                    <input type="hidden" name="role" value="admin">
+                    <div class="form-group">
+                        <input type="text" name="username" class="form-control" placeholder="Nom d'utilisateur" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="password" class="form-control" placeholder="Mot de passe" required>
+                    </div>
+                    <button type="submit" class="btn btn-login">Se Connecter</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+    function showLoginForm(type) {
+        const portalSection = document.getElementById('portalSection');
+        const employeeContainer = document.getElementById('employeeLoginContainer');
+        const adminContainer = document.getElementById('adminLoginContainer');
+
+        portalSection.style.display = 'none';
+        employeeContainer.style.display = 'none';
+        adminContainer.style.display = 'none';
+
+        if (type === 'employee') {
+            employeeContainer.style.display = 'block';
+        } else if (type === 'admin') {
+            adminContainer.style.display = 'block';
+        }
+        clearForms();
+    }
+
+    function backToPortal() {
+        document.getElementById('portalSection').style.display = 'block';
+        document.getElementById('employeeLoginContainer').style.display = 'none';
+        document.getElementById('adminLoginContainer').style.display = 'none';
+        clearForms();
+    }
+
+    function clearForms() {
+        document.querySelectorAll('form').forEach(form => form.reset());
+        document.querySelectorAll('.error-message').forEach(error => error.remove());
+        document.querySelectorAll('.alert').forEach(alert => alert.remove());
+    }
+
+    function handleLogin(event, type) {
+        const form = event.target;
+        const username = form.querySelector('[name="username"]').value.trim();
+        const password = form.querySelector('[name="password"]').value.trim();
+
+        if (!validateInput(username, password)) {
+            event.preventDefault();
+            return false;
+        }
+
+        // Allow form submission to proceed
+        return true;
+    }
+
+    function validateInput(username, password) {
+        if (!username || !password) {
+            showError('Veuillez remplir tous les champs.');
+            return false;
+        }
+        if (username.length < 3) {
+            showError('Le nom d\'utilisateur doit contenir au moins 3 caractères.');
+            return false;
+        }
+        if (password.length < 6) {
+            showError('Le mot de passe doit contenir au moins 6 caractères.');
+            return false;
+        }
+        return true;
+    }
+
+    function showError(message) {
+        // Remove any existing error messages
+        document.querySelectorAll('.alert').forEach(alert => alert.remove());
+
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'alert alert-danger mt-3';
+        errorDiv.setAttribute('role', 'alert');
+        errorDiv.textContent = message;
+        
+        const activeForm = document.querySelector('.login-form[style*="block"]');
+        if (activeForm) {
+            const formElement = activeForm.querySelector('form');
+            formElement.insertAdjacentElement('beforeend', errorDiv);
+        }
+    }
+
+    // Add event listeners when the document loads
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add form submit listeners
+        const employeeForm = document.getElementById('employeeLoginForm');
+        const adminForm = document.getElementById('adminLoginForm');
+
+        if (employeeForm) {
+            employeeForm.addEventListener('submit', (e) => handleLogin(e, 'user'));
+        }
+        if (adminForm) {
+            adminForm.addEventListener('submit', (e) => handleLogin(e, 'admin'));
+        }
+
+        // Clear any existing errors when switching forms
+        const backButtons = document.querySelectorAll('.btn-back');
+        backButtons.forEach(button => {
+            button.addEventListener('click', clearForms);
+        });
+    });
+</script>
+  </body>
+</html>
