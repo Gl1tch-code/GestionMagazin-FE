@@ -26,11 +26,11 @@
             </li>
 
             <!-- Submenu for "Entrée & Sortie" -->
-            <li>
-                <a class="has-arrow" href="javascript:void(0)" aria-expanded="false">
+            <li id="expandable" class="es-expandable" data-opened="false" >
+                <a id="expand-icon" class="has-arrow down-arrow" href="javascript:void(0)" aria-expanded="false">
                     <i class="icon-layers menu-icon"></i><span class="nav-text">Entrée & Sortie</span>
                 </a>
-                <ul aria-expanded="false">
+                <ul id="expandable-elements" aria-expanded="false" style="display: none;">
                     <li><a href="entree.html">Entrée</a></li>
                     <li><a href="sortie.html">Sortie</a></li>
                 </ul>
@@ -50,6 +50,10 @@
     </div>
 </div>
 
+<script>
+    
+
+</script>
 
 <!--**********************************
     Sidebar end

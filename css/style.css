@@ -22346,3 +22346,12 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 }
 
 /*# sourceMappingURL=style.css.map */
+
+
+.up-arrow::after{
+  transform: rotate(45deg) !important;
+}
+
+.down-arrow::after{
+  transform: rotate(-135deg) !important;
+}

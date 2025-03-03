@@ -257,13 +257,15 @@ function getAndFillData() {
                     document.getElementById("previewTotalTtc").textContent = entree?.totalTtc + " DH" || "N/A";
                     document.getElementById("previewTotalHt").textContent = entree?.totalHt + " DH" || "N/A";
                     document.getElementById("previewTotalTva").textContent = entree?.totalTva + " DH" || "N/A";
-                    row.querySelectorAll(".entree-article").forEach((entreeArticle) => {
-                        const myNode = document.getElementById("entree-preview-left-col-articles");
-                        myNode.textContent = '';
+
+                    const myNode = document.getElementById("entree-preview-left-col-articles");
+                    myNode.textContent = '';
+
+                    row.querySelectorAll(".entree-article").forEach((entreeArticle, entreeArticleIndex) => {
                         
                         const htmlArticle = `
                         <div class="form-group">
-                            <label class="font-weight-bold">Article ${Number.parseInt(index)+1}</label>
+                            <label class="font-weight-bold">Article ${Number.parseInt(entreeArticleIndex)+1}</label>
                             <p class="border-bottom pb-2">${entreeArticle.textContent}</p>
                         </div>`;
                         myNode.insertAdjacentHTML('beforeend', htmlArticle);
@@ -271,7 +273,7 @@ function getAndFillData() {
                 });
             });
 
-            
+            // edite modal
             document.querySelectorAll(".edit-btn").forEach(button => {
                 button.addEventListener("click", function () {
                     let row = this.closest("tr");
@@ -510,6 +512,4 @@ confirmDeleteBtn.addEventListener("click", function () {
         window.location.reload()
         console.error("Failed to delete article");
     });
-
-    
 });

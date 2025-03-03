@@ -25,6 +25,12 @@
 </head>
 
 <body>
+    <div style="z-index: 999999; position: absolute; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center; background-color: #00000080;" id="loader-row">
+        <div style="display: flex; justify-content: center;">
+            <img id="loader" src="./images/loader.gif" style=" margin: 20px auto; width: 50px;"/>
+        </div>
+    </div>
+
     <div class="main-wrapper">
 
 
@@ -89,7 +95,7 @@
                     <div class="col-lg-4">
                         <div class="card">
                             <div class="card-body p-3">
-                                <button class="btn btn-green px-4 mr-2" data-toggle="modal" data-target="#nouvelleSortieModal">
+                                <button class="btn btn-green px-4 mr-2 show-add-sortie-modal-btn" data-toggle="modal" data-target="#nouvelleSortieModal">
                                     <i class="fa fa-plus-circle mr-2"></i>Ajouter Sortie
                                 </button>
                             </div>
@@ -155,83 +161,15 @@
                                 <!-- NSortie, Fonctionnaire, Designation, Division, Service, Prix Total, Date Aj -->
                                 <th>NSortie</th>
                                 <th>Fonctionnaire</th>
-                                <th>Désignation</th>
+                                <!-- <th>Désignation</th> -->
                                 <th>Division</th>
                                 <th>Service</th>
-                                <th>Prix Total</th>
+                                <!-- <th>Prix Total</th> -->
                                 <th>Date Aj</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <!-- Example Data Rows -->
-                            <tr>
-                                <td>AC1234</td>
-                                <td>SOUFANE ABDELLATIF</td>
-                                <td>Test test</td>
-                                <td>Division A</td>
-                                <td>BUREAU TRAVAUX</td>
-                                <td>50,160 DH</td>
-                                <td>13/01/2025</td>
-                                <td>
-                                    <div class="d-flex flex-wrap gap-3">
-                                        <div class="d-flex w-100 gap-2">
-                                            <!-- First pair -->
-                                            <button type="button" class="btn btn-primary btn-sm pr-2 m-1 w-50" data-toggle="tooltip" data-placement="top" title="Modifier">
-                                                <i class="fas fa-edit"></i> Modifier
-                                            </button>
-                                            <button type="button" class="btn btn-danger btn-sm pr-2 m-1 w-50" data-toggle="tooltip" data-placement="top" title="Supprimer">
-                                                <i class="fas fa-trash-alt"></i> Supprimer
-                                            </button>
-                                        </div>
-                                        
-                                        <div class="d-flex w-100 gap-2">
-                                            <!-- Second pair -->
-                                            <button type="button" class="btn btn-green btn-sm pr-2 m-1 w-50" data-toggle="tooltip" data-placement="top" title="Apércu">
-                                                <i class="fas fa-eye"></i> Apércu
-                                            </button>
-                                            <button type="button" class="btn btn-imprimer btn-sm pr-2 m-1 w-50" data-toggle="tooltip" data-placement="top" title="Imprimer">
-                                                <i class="fas fa-print"></i> Imprimer
-                                            </button>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>AC1234</td>
-                                <td>MOHAMED ES-SLAYKI</td>
-                                <td>Test test</td>
-                                <td>CHEF DIVISION RECETTE</td>
-                                <td>ADMINISTRATEUR</td>
-                                <td>50,160 DH</td>
-                                <td>13/01/2025</td>
-                                <td>
-                                    <div class="d-flex flex-wrap gap-3">
-                                        <div class="d-flex w-100 gap-2">
-                                            <!-- First pair -->
-                                            <button type="button" class="btn btn-primary btn-sm pr-2 m-1 w-50" data-toggle="tooltip" data-placement="top" title="Modifier">
-                                                <i class="fas fa-edit"></i> Modifier
-                                            </button>
-                                            <button type="button" class="btn btn-danger btn-sm pr-2 m-1 w-50" data-toggle="tooltip" data-placement="top" title="Supprimer">
-                                                <i class="fas fa-trash-alt"></i> Supprimer
-                                            </button>
-                                        </div>
-                                        
-                                        <div class="d-flex w-100 gap-2">
-                                            <!-- Second pair -->
-                                            <button type="button" class="btn btn-green btn-sm pr-2 m-1 w-50" data-toggle="tooltip" data-placement="top" title="Apércu">
-                                                <i class="fas fa-eye"></i> Apércu
-                                            </button>
-                                            <button type="button" class="btn btn-imprimer btn-sm pr-2 m-1 w-50" data-toggle="tooltip" data-placement="top" title="Imprimer">
-                                                <i class="fas fa-print"></i> Imprimer
-                                            </button>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-
-
+                        <tbody id="sortie-table-body">
                             
                             <!-- Add more rows as needed -->
                         </tbody>
@@ -249,7 +187,7 @@
 
 
 
-<!-- Modal -->
+<!-- Add Modal -->
 <div class="modal fade" id="nouvelleSortieModal" tabindex="-1" role="dialog" aria-labelledby="nouvelleSortieModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -262,124 +200,134 @@
             <div class="modal-body">
                 <form id="nouvelleSortieForm">
                     <div class="form-group">
-                        <label for="fonctionnaire">Fonctionnaire</label>
-                        <select class="form-control" id="articleFournisseur" required>
-                            <option value="">Sélectionnez Fournisseur</option>
-                            <option value="HATIME EZZOUBI">HATIME EZZOUBI</option>
-                            <option value="ABDESSLAM IDRISSI">ABDESSLAM IDRISSI</option>
-                            <option value="SAID IDRISSI BOUZIDI">SAID IDRISSI BOUZIDI</option>
-                            <option value="ADIL GHAOUATI">ADIL GHAOUATI</option>
-                            <option value="MOHAMED ENNASIRI">MOHAMED ENNASIRI</option>
-                            <option value="YOUSSEF EL OUALI">YOUSSEF EL OUALI</option>
-                            <option value="ISMAIL HAJJAJI">ISMAIL HAJJAJI</option>
-                            <option value="ABDELHAK HAJJAJI">ABDELHAK HAJJAJI</option>
-                            <option value="HASSAN EL GHAZOUANI">HASSAN EL GHAZOUANI</option>
-                            <option value="MOHAME ATRICHA">MOHAME ATRICHA</option>
-                            <option value="RACHID EDDAHMOUNI">RACHID EDDAHMOUNI</option>
-                            <option value="ABDELMOUNAIM DAHMOUNI">ABDELMOUNAIM DAHMOUNI</option>
-                            <option value="RADOUAN EL OUANJLI">RADOUAN EL OUANJLI</option>
-                            <option value="RACHID BAKKOURI">RACHID BAKKOURI</option>
-                            <option value="TAOUFIK BAJJOU">TAOUFIK BAJJOU</option>
-                            <option value="JAMAL EL ABBAI">JAMAL EL ABBAI</option>
-                            <option value="HASSAN KALLOUBI">HASSAN KALLOUBI</option>
-                            <option value="FOUAD MANSOUR">FOUAD MANSOUR</option>
-                            <option value="HICHAM TRITAH">HICHAM TRITAH</option>
-                            <option value="ABDELLAH IDRISSI BOUZAII">ABDELLAH IDRISSI BOUZAII</option>
-                            <option value="MOHAMED ERRAHOUTI">MOHAMED ERRAHOUTI</option>
-                            <option value="TAOUFIK ELBRANSI">TAOUFIK ELBRANSI</option>
-                            <option value="ABDELLALI OTMANI">ABDELLALI OTMANI</option>
-                            <option value="ABDELHAFID EL BOUZAII">ABDELHAFID EL BOUZAII</option>
-                            <option value="MOSTAPHA LYOUBI">MOSTAPHA LYOUBI</option>
+                        <label for="selectedFonctionnaire">Fonctionnaire</label>
+                        <select class="form-control" id="selectedFonctionnaire" name="fonctionnaire" required>
+                            <option disabled selected>Selectioner un fonctionnaire</option>
                         </select>
                     </div>
                     
                     <div class="form-group">
-                        <label for="designation">Motif</label>
-                        <textarea class="form-control" id="designation" name="designation" rows="3"></textarea>
+                        <label for="sortieMotif">Motif</label>
+                        <textarea class="form-control" id="sortieMotif" name="motif" rows="3"></textarea>
                     </div>
 
                     <div class="form-group">
-                        <label for="division">Division</label>
-                        <select class="form-control" id="division" name="division">
-                            <option value="division1">Division de Travaux et Construction</option>
-                            <option value="division2">Division des Ressources Humaines</option>
+                        <label for="selectedDivision">Division</label>
+                        <select class="form-control" id="selectedDivision" name="division">
+                            <option disabled selected>Selectioner une division</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="service">Service</label>
-                        <select class="form-control" id="service" name="service">
-                            <option value="service1">Service de Supervision de Chantier</option>
-                            <option value="service2">Service de Planification et d'Études Techniques</option>
-                            <option value="service3">Service de Formation et Développement</option>
-                            <option value="service4">Service de Paie et Avantages Sociaux</option>
-                            <option value="service5">Service d’Évaluation et de Performance</option>
+                        <label for="selectedService">Service</label>
+                        <select class="form-control" id="selectedService" name="service">
+                            <option disabled selected>Selectioner un service</option>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label for="article">Articles</label>
                         <div id="articles-container">
-                            <div class="article-item d-flex align-items-center mb-2">
-                                <select class="form-control selectpicker article-select mr-2" name="article[]" data-live-search="true">
-                                    <option value="boite_archive_6cm">BOITE ARCHIVE EN PLASTIQUE 6cm</option>
-                                    <option value="boite_archive_4cm">BOITE ARCHIVE EN PLASTIQUE 4cm</option>
-                                    <option value="chemise_bulle_jaune">Chemise à bulle jaune</option>
-                                    <option value="chemise_arabas">Chemise en arabas</option>
-                                    <option value="chemise_sangle">Chemise à sangle</option>
-                                    <option value="chemise_cartonnee">Chemise cartonnée</option>
-                                    <option value="correcteur_forme_stylo">Correcteur forme de stylo</option>
-                                    <option value="encre_konica">Encre de photocopieur Konica minolta</option>
-                                    <option value="encre_ricoh">Encre de photocopieur Ricoh Aficio MP 2000</option>
-                                    <option value="caches_composteurs">Les caches composteurs</option>
+                            <div id="article-item" class="article-item d-flex align-items-center mb-2">
+                                <select id="selectedArticle" class="form-control mr-2" name="articleId-0">
+                                    <option value="" disabled selected>Selectioner un service</option>
                                 </select>
-                                <input type="number" class="form-control article-quantity" name="quantity[]" min="1" placeholder="Quantité" style="width: 80px;">
+                                <input id="selectedArticleQuantite" type="number" class="form-control article-quantity" name="articleQuantity-0" min="1" placeholder="Quantité" style="width: 80px;">
                                 <button type="button" class="btn btn-danger btn-sm remove-article ml-2">X</button>
                             </div>
                         </div>
                         <button type="button" class="btn btn-primary btn-sm mt-2" id="add-article">Ajouter un autre article</button>
                     </div>
+                    <div class="modal-footer" style="padding: 15px 0;">
+                        <div class="d-flex justify-content-between w-100">
+                            <div>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Fermer</button>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-green">Ajouter Sortie</button>
+                            </div>
+                        </div>
+                    </div>
 
                 </form>
             </div>
-            <div class="modal-footer">
-                <div class="d-flex justify-content-between w-100">
-                    <div>
-                        <button type="submit" class="btn btn-green">Ajouter Sortie</button>
-                        <button type="button" class="btn btn-warning" id="print-invoice">Imprimer Facture</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- Aperçu Modal -->
+<div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-white bg-warning">
+                <h5 class="modal-title">Aperçu de sortie</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <!-- Left Column -->
+                    <div class="col-md-6" id="entree-preview-left-col">
+                        <div class="form-group">
+                            <label class="font-weight-bold">Numero de sortie</label>
+                            <p id="previewSortieNum" class="border-bottom pb-2">Chemise à bulle jaune</p>
+                        </div>
+                        <div class="form-group">
+                            <label class="font-weight-bold">Fonctionnaire</label>
+                            <p id="previewPartenaire" class="border-bottom pb-2">Rame</p>
+                        </div>
+                        <div class="form-group">
+                            <label class="font-weight-bold">Motif</label>
+                            <p id="previewMotif" class="border-bottom pb-2"></p>
+                        </div>
+                        <div class="form-group">
+                            <label class="font-weight-bold">Devision</label>
+                            <p id="previewDevision" class="border-bottom pb-2">FOURNITURE DE BUREAU</p>
+                        </div>
+                        <div class="form-group">
+                            <label class="font-weight-bold">Service</label>
+                            <p id="previewService" class="border-bottom pb-2">FOURNITURE DE BUREAU</p>
+                        </div>
                     </div>
-                    <div>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Fermer</button>
+                    <!-- Right Column -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold">Date d'ajout</label>
+                            <p id="previewDateAjoute" class="border-bottom pb-2">En stock (25)</p>
+                        </div>
+                        <div id="sortie-preview-right-col-articles">
+
+                        </div>
                     </div>
                 </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmer la Suppression</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Êtes-vous sûr de vouloir supprimer cette sortie ?</p>
+                <p class="text-danger fw-bold">Cette action est irréversible.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary text-white" data-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-danger" id="confirmDelete">Supprimer</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    document.getElementById('add-article').addEventListener('click', function() {
-        const container = document.getElementById('articles-container');
-        const newArticle = `
-            <div class="article-item d-flex align-items-center mb-2">
-                <select class="form-control selectpicker article-select mr-2" name="article[]" data-live-search="true">
-                    <option value="boite_archive_6cm">BOITE ARCHIVE EN PLASTIQUE 6cm</option>
-                    <option value="boite_archive_4cm">BOITE ARCHIVE EN PLASTIQUE 4cm</option>
-                    <option value="chemise_bulle_jaune">Chemise à bulle jaune</option>
-                    <option value="chemise_arabas">Chemise en arabas</option>
-                    <option value="chemise_sangle">Chemise à sangle</option>
-                    <option value="chemise_cartonnee">Chemise cartonnée</option>
-                    <option value="correcteur_forme_stylo">Correcteur forme de stylo</option>
-                    <option value="encre_konica">Encre de photocopieur Konica minolta</option>
-                    <option value="encre_ricoh">Encre de photocopieur Ricoh Aficio MP 2000</option>
-                    <option value="caches_composteurs">Les caches composteurs</option>
-                </select>
-                <input type="number" class="form-control article-quantity" name="quantity[]" min="1" placeholder="Quantité" style="width: 80px;">
-                <button type="button" class="btn btn-danger btn-sm remove-article ml-2">X</button>
-            </div>`;
-        container.insertAdjacentHTML('beforeend', newArticle);
-    });
-
     document.getElementById('articles-container').addEventListener('click', function(e) {
         if (e.target.classList.contains('remove-article')) {
             e.target.closest('.article-item').remove();
@@ -412,50 +360,7 @@
 ***********************************-->
 
 <!-- JavaScript for Dynamic Price Calculation -->
-<script>
-    document.getElementById('addProductBtn').addEventListener('click', function () {
-        const productList = document.getElementById('productList');
-        const selectedProducts = document.getElementById('selectedProducts');
-        const prixTotalInput = document.getElementById('prixTotal');
-        let total = 0;
-
-        Array.from(productList.selectedOptions).forEach(option => {
-            const productId = option.value;
-
-            // Check if product is already added
-            if (!document.querySelector(`.product-item[data-product-id="${productId}"]`)) {
-                const productItem = document.createElement('div');
-                productItem.classList.add('product-item', 'mb-2');
-                productItem.setAttribute('data-product-id', productId);
-
-                const price = Math.floor(Math.random() * 1000) + 100; // Example random price
-                total += price;
-
-                productItem.innerHTML = `
-                    <span>${option.text}</span> 
-                    <input type="number" class="form-control w-25 d-inline ms-2" placeholder="Quantité">
-                    <input type="number" class="form-control w-25 d-inline ms-2" placeholder="Prix">
-                    <input type="text" class="form-control w-25 d-inline ms-2" placeholder="TVA">
-                    <button class="btn btn-sm btn-danger ms-2 remove-product">Supprimer</button>
-                `;
-
-                selectedProducts.appendChild(productItem);
-            }
-        });
-
-        prixTotalInput.value = total + " DH";
-
-        // Remove product event
-        selectedProducts.addEventListener('click', function (e) {
-            if (e.target.classList.contains('remove-product')) {
-                const productPrice = parseInt(e.target.previousElementSibling.textContent.split(' ')[0]);
-                total -= productPrice;
-                prixTotalInput.value = total + " DH";
-                e.target.closest('.product-item').remove();
-            }
-        });
-    });
-</script>
+<script src="./sortie.js"></script>
 
 
 
