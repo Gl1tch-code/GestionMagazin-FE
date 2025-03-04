@@ -163,7 +163,7 @@ body::after {
   left: 0;
   right: 0;
   bottom: 0;
-  background: url('/theme/app/images/bg.jpg') no-repeat center center fixed;
+  background: url('../app/images/bg.jpg') no-repeat center center fixed;
   background-size: cover;
   opacity: 0.3;
   /* 20% opacity */
@@ -22354,4 +22354,37 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 
 .down-arrow::after{
   transform: rotate(-135deg) !important;
+}
+
+.logo-compact{
+  display: block !important;
+}
+
+.header-content.clearfix::after{
+  display: none;
+}
+
+@media screen and (max-width: 1200px) {
+  .logo-compact{
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .nav-header .brand-logo{
+    height: 100%;
+    a{
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .hamburger{
+    display: none;
+  }
 }

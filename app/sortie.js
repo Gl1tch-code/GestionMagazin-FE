@@ -97,8 +97,8 @@ function getAndFillData() {
                 sortie?.detailSorties?.forEach(ds => {
                     totalQuantite += ds?.quantite;                    
                 })
-                
                 const prix = 100;
+ 
                 const actionMenu = `
                 <td style="width: 250px;">
                     <div class="d-flex flex-wrap gap-3">

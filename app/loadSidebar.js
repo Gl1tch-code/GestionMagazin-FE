@@ -28,6 +28,31 @@ document.addEventListener("DOMContentLoaded", async function () {
             if (window.isGlobalJsLoaded) {
                 handleSidebarContentDependingOnUserRole();
             }
+
+            return data;
+
+        })
+        .then((data) => {
+            
+            const sideBar = document.querySelector(`.nk-sidebar`)
+            document.querySelector(".sidebar-toggle-icon").addEventListener("click", () => {
+                if(sideBar !== undefined) {
+
+                    if(sideBar.style.left === "" || sideBar.style.left === "-100%"){
+                        sideBar.style.left = "0px";
+                    } else {
+                        sideBar.style.left = "-100%";
+                    }
+
+                    console.log(sideBar.style.left);
+                    
+                }
+            })
+
+            document.querySelector(".refresh-page-icon").addEventListener("click", () => {
+                window.location.reload();
+            })
+
         })
         .catch(error => {
             console.error("Error loading sidebar:", error);

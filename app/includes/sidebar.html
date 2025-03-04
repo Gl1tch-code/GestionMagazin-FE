@@ -19,10 +19,16 @@
                     <i class="fa fa-cogs menu-icon"></i><span class="nav-text">Stock</span>
                 </a>
             </li> -->
-            <li id="partennaires-li">
-                <a href="partennaires.html" aria-expanded="false">
-                    <i class="fa fa-users menu-icon"></i><span class="nav-text">Les Fournisseurs</span>
+            <li id="expandable" class="es-expandable" data-opened="false" >
+                <a id="expand-icon" class="has-arrow down-arrow" href="javascript:void(0)" aria-expanded="false">
+                    <i class="fa fa-users menu-icon"></i><span class="nav-text">Les Contacts</span>
                 </a>
+
+                <ul id="expandable-elements" aria-expanded="false" style="display: none;">
+                    <li><a href="partennaires.html">Fournisseurs</a></li>
+                    <li><a href="SousMaintenance.html">Clients</a></li>
+                    <li><a href="SousMaintenance.html">Distributeur</a></li>
+                </ul>
             </li>
 
             <!-- Submenu for "Entrée & Sortie" -->

@@ -11,7 +11,7 @@
   
     <title>Gestion du Magasin</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="images/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./images/logo.png">
     <!-- Pignose Calender -->
     <link href="../plugins/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
     <!-- Chartist -->
@@ -41,10 +41,10 @@
             <div class="brand-logo">
                 <a href="javascript:void(0)">
                     <!-- Logo that is always visible -->
-                    <b class="logo-abbr"><img src="images/logo.png" alt="Logo" style="width: 100px; height: auto;"> </b>
+                    <b class="logo-abbr"><img src="./images/logo.png" alt="Logo" style="width: 100px; height: auto;"> </b>
 
                     <!-- Compact logo (logo2) that will be hidden when sidebar is collapsed -->
-                    <img src="../app/images/logo2.png" alt="Compact Logo" class="logo-compact" style="max-width: 250px; height: auto; display: block;">
+                    <img src="./images/logo2.png" alt="Compact Logo" class="logo-compact" style="max-width: 250px; height: auto; display: block;">
                 </a>
             </div>
         </div>
@@ -57,7 +57,7 @@
             Début de l'en-tête
         ***********************************-->
         <div id="navbar-placeholder"></div>
-        <script src="loadNavbar.js"></script>
+        <script src="./loadNavbar.js"></script>
         <!--**********************************
             Fin de l'en-tête
         ***********************************-->
@@ -69,7 +69,7 @@
             Sidebar start
         ***********************************-->
         <div id="sidebar-placeholder"></div>
-        <script src="loadSidebar.js"></script>
+        <script src="./loadSidebar.js"></script>
         <script src="./global.js"></script>
         <!--**********************************
             Sidebar end
@@ -239,15 +239,15 @@
                     <div class="row mb-3">
                         <div class="col-md-4">
                             <label class="form-label">Total HT</label>
-                            <input name="totalHT" type="text" class="form-control" id="totalHT">
+                            <input name="totalHT" type="number" class="form-control" id="totalHT">
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">Total TVA</label>
-                            <input name="totalTVA" type="text" class="form-control" id="totalTVA">
+                            <input name="totalTVA" type="number" class="form-control" id="totalTVA">
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">Total TTC</label>
-                            <input name="totalTTC" type="text" class="form-control" id="totalTTC">
+                            <input name="totalTTC" type="number" class="form-control" id="totalTTC">
                         </div>
                     </div>
 

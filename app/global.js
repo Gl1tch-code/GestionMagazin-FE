@@ -20,6 +20,7 @@ window.constants = {
 window.isGlobalJsLoaded = true;
 
 const handleSidebarContentDependingOnUserRole = () => {
+
     const usrerInfos = JSON.parse(localStorage.getItem("user-infos"));
     if (usrerInfos) {
         if(usrerInfos.role === window.constants.USERS_ROLES.user){
@@ -30,3 +31,4 @@ const handleSidebarContentDependingOnUserRole = () => {
         alert("user Date unavailable")
     }
 }
+

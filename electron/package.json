@@ -1,16 +1,34 @@
 {
-  "name": "electron",
+  "name": "gestion-de-magasin",
   "version": "1.0.0",
-  "description": "",
+  "description": "Your Electron app description",
   "license": "ISC",
-  "author": "",
+  "author": "Your Name",
   "type": "commonjs",
-  "main": "main.js",
+  "main": "main.js", 
   "scripts": {
     "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:win": "electron-builder --win --x64"
   },
-  "dependencies": {
-    "electron": "^34.0.1"
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^34.0.1",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.example.gestiondemagasin",
+    "productName": "Gestion De Magasin",
+    "win": {
+      "target": "nsis"
+    },
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "app//*",   
+      "main.js",   
+      "package.json"
+    ]
   }
 }

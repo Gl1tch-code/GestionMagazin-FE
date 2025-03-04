@@ -2,25 +2,18 @@
             Début de l'en-tête
         ***********************************-->
         <div class="header">    
-            <div class="header-content clearfix">
-                
-                <div class="nav-control">
-                    <div class="hamburger">
-                        <span class="toggle-icon"><i class="icon-menu"></i></span>
+            <div class="header-content clearfix" style="
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+        ">
+
+                <div class="nav-control" style="display: flex !important;gap: 10px;justify-content: center;align-items: center;position: relative;top: 0; transform: none;left: 0;">
+                    <div class="hamburger" style="top: 0;">
+                        <span class="sidebar-toggle-icon"><i class="icon-menu" style="font-size: 18px;"></i></span>
                     </div>
-                </div>
-                <!-- Search Section -->
-                <div class="header-left">
-                    <div class="input-group icons">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text bg-transparent border-0 pr-2 pr-sm-3" id="basic-addon1"><i class="mdi mdi-magnify"></i></span>
-                        </div>
-                        <input type="search" class="form-control" placeholder="Rechercher dans le tableau de bord" aria-label="Rechercher dans le tableau de bord" style="width: 600px;">
-                        <div class="drop-down animated flipInX d-md-none">
-                            <form action="#">
-                                <input type="text" class="form-control" placeholder="Rechercher">
-                            </form>
-                        </div>
+                    <div class="reload">
+                        <span class="refresh-page-icon"><i class="fa fa-refresh" style="font-size: 18px;"></i></span>
                     </div>
                 </div>
 
@@ -31,10 +24,6 @@
 
                 <!-- Notifications -->
                 <li class="icons dropdown">
-                    <a href="javascript:void(0)" data-toggle="dropdown">
-                        <i class="mdi mdi-bell-outline"></i>
-                        <span class="badge badge-pill gradient-2">3</span>
-                    </a>
                     <div class="drop-down animated fadeIn dropdown-menu dropdown-notfication">
                         <div class="dropdown-content-heading d-flex justify-content-between">
                             <span class="">3 nouvelles notifications</span>
