@@ -39,7 +39,7 @@ function createWindow() {
     mainWindow.webContents.on('did-finish-load', () => {
         mainWindow.webContents.executeJavaScript('document.title = "Systém de Gestion du Magasin -Commune Taounate";');
     });
-    mainWindow.webContents.openDevTools(); // This opens DevTools
+    //mainWindow.webContents.openDevTools(); // This opens DevTools
 
 }
 
