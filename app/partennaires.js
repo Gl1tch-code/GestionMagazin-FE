@@ -135,7 +135,6 @@ function getAndFillData() {
         })
     }
     fetchPartenaires()
-
 }
 
 getAndFillData();
@@ -228,6 +227,7 @@ form.addEventListener("submit", (e) => {
 
 })
 
+
 const confirmDeleteBtn = document.getElementById("confirmDelete");
 confirmDeleteBtn.addEventListener("click", function () {
     let rowId = this.dataset.rowId;
@@ -251,10 +251,10 @@ confirmDeleteBtn.addEventListener("click", function () {
     })
     .then((response) => response.json())
     .then(() => {
-        // window.location.reload();
+        window.location.reload();
     })
     .catch(() => {
-        // window.location.reload()
+        window.location.reload()
         console.error("Failed to delete article");
     });
 });
