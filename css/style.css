@@ -22364,7 +22364,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   display: none;
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1216px) {
   .logo-compact{
     display: none !important;
   }

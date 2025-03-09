@@ -20,13 +20,14 @@
     "appId": "com.example.gestiondemagasin",
     "productName": "Gestion De Magasin",
     "win": {
-      "target": "nsis"
+      "target": "nsis",
+      "icon": "icons/logo.png" 
     },
     "directories": {
       "output": "dist"
     },
     "files": [
-      "app//*",   
+      "app/**/*",   
       "main.js",   
       "package.json"
     ]

@@ -18,40 +18,49 @@ document.addEventListener("DOMContentLoaded", async function () {
                 const anchor = expandable.querySelector("#expand-icon");
                 
                 anchor.addEventListener("click", () => {
-                    if(expandable.dataset.opened === "false") {
+                    if (expandable.dataset.opened === "false") {
                         openExpandeableSideBarTab(expandable, anchor);
-                    } else{
+                    } else {
                         closeExpandeableSideBarTab(expandable, anchor);
                     }
-                })
-            })
+                });
+            });
+
             if (window.isGlobalJsLoaded) {
                 handleSidebarContentDependingOnUserRole();
             }
 
             return data;
-
         })
         .then((data) => {
-            
-            const sideBar = document.querySelector(`.nk-sidebar`)
-            document.querySelector(".sidebar-toggle-icon").addEventListener("click", () => {
-                if(sideBar !== undefined) {
+            // Make sure sidebar and toggle icon exist before trying to add event listener
+            const sideBar = document.querySelector('.nk-sidebar');
+            const sidebarToggleIcon = document.querySelector('.sidebar-toggle-icon');
 
-                    if(sideBar.style.left === "" || sideBar.style.left === "-100%"){
-                        sideBar.style.left = "0px";
-                    } else {
-                        sideBar.style.left = "-100%";
+            if (sidebarToggleIcon) {
+                sidebarToggleIcon.addEventListener("click", () => {
+                    if (sideBar !== null) {
+                        if (sideBar.style.left === "" || sideBar.style.left === "-100%") {
+                            sideBar.style.left = "0px";
+                        } else {
+                            sideBar.style.left = "-100%";
+                        }
+
+                        console.log(sideBar.style.left);
                     }
+                });
+            } else {
+                console.warn('.sidebar-toggle-icon not found!');
+            }
 
-                    console.log(sideBar.style.left);
-                    
-                }
-            })
-
-            document.querySelector(".refresh-page-icon").addEventListener("click", () => {
-                window.location.reload();
-            })
+            const refreshIcon = document.querySelector(".refresh-page-icon");
+            if (refreshIcon) {
+                refreshIcon.addEventListener("click", () => {
+                    window.location.reload();
+                });
+            } else {
+                console.warn('.refresh-page-icon not found!');
+            }
 
         })
         .catch(error => {
@@ -63,11 +72,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 function openExpandeableSideBarTab(expandable, anchor) {
     expandable.dataset.opened = "true";
     anchor.className = "has-arrow up-arrow";
-    expandable.querySelector("#expandable-elements").style.display = "block"
+    expandable.querySelector("#expandable-elements").style.display = "block";
 }
 
 function closeExpandeableSideBarTab(expandable, anchor) {
     expandable.dataset.opened = "false";
     anchor.className = "has-arrow down-arrow";
-    expandable.querySelector("#expandable-elements").style.display = "none"
+    expandable.querySelector("#expandable-elements").style.display = "none";
 }
