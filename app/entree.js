@@ -152,9 +152,6 @@ function calculateTotals() {
     document.getElementById('totalPrice').textContent = `Total: ${total.toFixed(2)} MAD`;
 }
 
-document.getElementById('scanButton').addEventListener('click', function() {
-    alert('Fonctionnalité de scanner à implémenter');
-});
 
 
 
@@ -239,6 +236,7 @@ function getAndFillData() {
 
                 document.getElementById("entree-table-body").insertAdjacentHTML("beforeend", htmlRow);
             })
+            document.getElementById("files-upload-inactive-container").style.display = "none";
             document.getElementById("loader-row").style.display = "none";
 
             // Attach click event to preview buttons inside action menu
@@ -283,6 +281,10 @@ function getAndFillData() {
                     form.dataset.type = "edit";
                     form.dataset.rowId = currentId;
                     form.querySelector("button[type=submit]").textContent = "Editer";
+
+                    document.getElementById("files-upload-inactive-container").style.display = "block";
+                    document.getElementById("files-upload-container").style.display = "none";
+
                     
                     // Fetch data from the row
                     let nbl = row.querySelector(".entree-nbl")?.textContent.trim() || "";
@@ -394,6 +396,9 @@ document.querySelector(".show-add-entree-modal-btn").addEventListener("click", (
     const form = document.getElementById("entryForm");
     form.dataset.type = "add";
 
+    document.getElementById("files-upload-inactive-container").style.display = "none";
+    document.getElementById("files-upload-container").style.display = "block";
+
     form.querySelector("button[type=submit]").textContent = "Ajouter l'entree";
     document.getElementById("nouvelleEntreeModalLabel").textContent = "Nouvelle Entrée";
     form.reset();
@@ -404,10 +409,18 @@ const form = document.getElementById("entryForm");
 form.addEventListener("submit", (e) => {
     e.preventDefault();
     const formObject = Object.fromEntries(new FormData(document.querySelector('#entryForm')));
+    let filesIds = [];
 
+    document.getElementById("file-list").childNodes?.forEach(fileElem => {
+        fileElem?.querySelector(".remove-btn").dataset.fileId && filesIds.push(fileElem?.querySelector(".remove-btn").dataset.fileId);
+    })
+
+    formObject.filesIds = filesIds;
+    
     if(form.dataset.type === "add"){
         const currentDate = new Date().toISOString();
         form.querySelector("button[type=submit]").disabled = true;
+        
         
         const query = `
         mutation MyMutation {
@@ -418,13 +431,14 @@ form.addEventListener("submit", (e) => {
                 totalHt: ${formObject.totalHT}, 
                 totalTtc: ${formObject.totalTTC}, 
                 totalTva: ${formObject.totalTVA}, 
+                filesIds: ${JSON.stringify(formObject.filesIds)},
                 details: {
                     articleId: "${formObject.selectArticles}"
                 }}
             ) {
                 id
             }
-        }`;
+        }`;        
 
         fetch(window.constants.backend_url, {
             method: "POST",
@@ -453,7 +467,7 @@ form.addEventListener("submit", (e) => {
                     totalHt: ${formObject.totalHT}, 
                     totalTtc: ${formObject.totalTTC}, 
                     totalTva: ${formObject.totalTVA}, 
-                    numeroBand: "${formObject.nbl}", 
+                    numeroBand: "${formObject.nbl}",
                     details: {
                         articleId: "${formObject.selectArticles}"
                     }, 
@@ -513,3 +527,75 @@ confirmDeleteBtn.addEventListener("click", function () {
         console.error("Failed to delete article");
     });
 });
+
+function addFileInput() {
+    const container = document.createElement("div");
+    container.classList.add("file-container");
+
+    const input = document.createElement("input");
+    input.type = "file";
+
+    const fileName = document.createElement("span");
+    fileName.classList.add("file-name");
+    fileName.textContent = "No file selected";
+
+    const removeButton = document.createElement("button");
+    removeButton.classList.add("remove-btn");
+    removeButton.textContent = "Remove";
+    removeButton.style.visibility = "hidden"; // Hide until file is uploaded
+    removeButton.type = "button";
+
+    input.addEventListener("change", function () {
+        if (input.files.length > 0) {
+            const file = input.files[0];
+            fileName.textContent = "Uploading...";
+            uploadFile(file, fileName, removeButton);
+        }
+    });
+
+    removeButton.addEventListener("click", function () {
+        deleteFile(removeButton.dataset.fileId, container);
+    });
+
+    container.appendChild(input);
+    container.appendChild(fileName);
+    container.appendChild(removeButton);
+    document.getElementById("file-list").appendChild(container);
+}
+
+async function uploadFile(file, fileName, removeButton) {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    fetch(window.constants.domain + "/api/files/upload", {
+        method: "POST",
+        body: formData,
+    })
+    .then(response => response.json())
+    .then(id => { 
+        const stringifiedId = id?.toString();       
+        fileName.textContent = `✅ File uploaded successfully`;
+        removeButton.style.visibility = "visible";
+        removeButton.dataset.fileId = stringifiedId;
+    })
+    .catch(() => {
+        fileName.textContent = `❌ Something went wrong`;
+        console.log("Error uploading file");
+    });
+
+}
+
+async function deleteFile(id, container) {
+    fetch(window.constants.domain + "/api/files/delete/" + id, {
+        method: "DELETE",
+        body: {id},
+    })
+    .then(response => {
+        response.ok && container.remove();
+    })
+    .catch(error => {
+        alert("Error deleting file");
+    });
+}
+
+addFileInput();

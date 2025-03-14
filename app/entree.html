@@ -20,7 +20,49 @@
     <!-- Custom Stylesheet -->
     <link href="../css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .files-list-container{
+            flex-direction: column;
+        }
+        .file-container {
+            display: flex;
+            margin-bottom: 10px;
+            justify-content: space-between;
+        }
+        .file-name {
+            margin-left: 10px;
+            font-weight: bold;
+            padding: 7px 10px;
+            border: 1px gray solid;
+            color: gray;
+            border-radius: 5px;
+        }
+        .upload-other-file:hover{
+            color: rgb(255, 255, 255);
+            background: rgb(32, 167, 88);
 
+        }
+        .upload-other-file{
+            transition: 0.2s;
+            outline: none !important;
+            color: rgb(32, 167, 88);
+            padding: 8px !important;
+            font-size: 18px;
+            font-weight: 900;
+            border: 2px rgb(32, 167, 88) solid;
+            background: transparent;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+        .remove-btn {
+            margin-left: 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
 
 </head>
 
@@ -215,7 +257,7 @@
                             <!-- Partenaire Selection -->
                             <div class="mb-3">
                                 <label for="searchPartenaire" class="form-label">Partenaire</label>
-                                <select name="selectedPartenaire" class="form-control" id="selectedPartenaire" required>
+                                <select name="selectedPartenaire" class="form-control" id="selectedPartenaire" >
                                     <option value="">Toutes les partenaire</option>
                                 </select>
                             </div>
@@ -229,7 +271,7 @@
                             <!-- Articles Selection -->
                             <div class="mb-3">
                                 <label class="form-label">Articles</label>
-                                <select name="selectArticles" class="form-control" id="selectArticles" required>
+                                <select name="selectArticles" class="form-control" id="selectArticles" >
                                     <option value="">Toutes les articles</option>
                                 </select>
                             </div>
@@ -251,15 +293,19 @@
                             </div>
 
                             <!-- Document Upload -->
-                            <div class="mb-3">
+                            <div class="mb-3" id="files-upload-container">
                                 <label class="form-label">Document BL</label>
-                                <div class="d-flex gap-2">
-                                    <button type="button" class="btn btn-green btn-block p-3" id="scanButton">
-                                        <i class="fas fa-file"></i> Scanner
-                                    </button>
+                                <div class="d-flex gap-2 files-list-container">
+                                    <div id="file-list"></div>
+                                    <button type="button" class="upload-other-file" onclick="addFileInput()">Add Another File</button>
                                     <!-- <input type="file" class="form-control" id="documentUpload" accept="image/*,.pdf"> -->
                                 </div>
                                 <div class="mt-2" id="documentPreview"></div>
+                            </div>
+
+                            <div class="mb-3" id="files-upload-inactive-container" style="padding: 10px 30px; border: 2px #ffb300 solid;">
+                                <span style="font-size: 18px; font-weight: 900; color: #ffb300;">Attention</span>
+                                <p style="font-size: 16px; margin: 0;">Vous ne pouvez pas modifier les fichiers pour des resons de securite</p>
                             </div>
 
                             <div class="modal-footer">
