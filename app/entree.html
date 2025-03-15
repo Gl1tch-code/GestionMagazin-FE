@@ -62,6 +62,12 @@
             padding: 5px 10px;
             cursor: pointer;
         }
+        .article-row{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            gap: 10px;
+        }
     </style>
 
 </head>
@@ -268,12 +274,21 @@
                                 <textarea name="designation" class="form-control" id="designation" rows="3" required></textarea>
                             </div>
 
-                            <!-- Articles Selection -->
                             <div class="mb-3">
-                                <label class="form-label">Articles</label>
-                                <select name="selectArticles" class="form-control" id="selectArticles" >
-                                    <option value="">Toutes les articles</option>
-                                </select>
+                                <!-- Articles Selection -->
+                                <div class="articles-container mb-2" id="articlesContainer">
+                                    <label class="form-label">Articles</label>
+                                    <div class="article-row mb-2">
+                                        <select name="selectArticles[]" class="form-control select-article" id="selectArticles">
+                                            <option value="">Toutes les articles</option>
+                                            <!-- Options will be added dynamically via JS -->
+                                        </select>
+                                        <input type="number" name="price[]" class="form-control price-input" placeholder="Prix" required min="0.01" step="0.01"  id="selectArticlesPrice">
+                                        <button type="button" class="btn btn-secondary btn-sm delete-row-btn text-white" style="cursor: not-allowed; background-color: #9097c4; border-color: #9097c4;" disabled>Supprimer</button>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-primary" id="addRowBtn">Ajouter un autre article</button>
+
                             </div>
 
                             <!-- Totals -->

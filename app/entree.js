@@ -218,9 +218,11 @@ function getAndFillData() {
                         </div>
                     </div>
                 </td>`;
-                
-                const htmlRow = `
-                <tr data-index="${index}" data-id="${entree?.id}">
+
+                const htmlRow = document.createElement('tr');
+                htmlRow.dataset.index = index;
+                htmlRow.dataset.id = entree?.id;
+                htmlRow.innerHTML = `
                     <td class="entree-nbl">${entree?.numeroBand}</td>
                     <td class="entree-partner" data-value="${entree?.partenaire?.id}">${entree?.partenaire?.nom}</td>
                     <td class="entree-designation">${entree?.designation}</td>
@@ -228,13 +230,9 @@ function getAndFillData() {
                     <td class="entree-totalHt" data-value="${entree?.totalHt}">${entree?.totalHt} DH</td>
                     <td class="entree-totalTtc" data-value="${entree?.totalTtc}">${entree?.totalTtc} DH</td>
                     <td style="display: none;" class="entree-totalTva" data-value="${entree?.totalTva}">${entree?.totalTva} DH</td>
-                    ${entree?.detailEntrees?.map(({article}) => 
-                        `<td style="display: none;" class="entree-article" data-value="${article?.id}">${article?.nom}</td>`
-                    )}
                     ${actionMenu}
-                </tr>`;
-
-                document.getElementById("entree-table-body").insertAdjacentHTML("beforeend", htmlRow);
+                    `;
+                document.getElementById('entree-table-body').appendChild(htmlRow);
             })
             document.getElementById("files-upload-inactive-container").style.display = "none";
             document.getElementById("loader-row").style.display = "none";
@@ -293,17 +291,30 @@ function getAndFillData() {
                     let totalHt = row.querySelector(".entree-totalHt")?.dataset.value || "";                                        
                     let totalTtc = row.querySelector(".entree-totalTtc")?.dataset.value || "";                                        
                     let totalTva = row.querySelector(".entree-totalTva")?.dataset.value || "";                                        
-                    let articleId = row.querySelector(".entree-article")?.dataset.value || "";                                        
 
                     // Populate modal fields
                     document.getElementById("nbl").value = nbl;
                     document.getElementById("selectedPartenaire").value = partner;
                     document.getElementById("designation").value = description;
-                    document.getElementById("selectArticles").value = articleId;
                     document.getElementById("totalHT").value = totalHt;
                     document.getElementById("totalTVA").value = totalTva;
                     document.getElementById("totalTTC").value = totalTtc;
-        
+
+                    // Fill Articles
+                    const entree = data[row.dataset.index];
+
+                    document.getElementById("selectArticles").value = entree?.detailEntrees[0]?.article?.id;
+                    document.getElementById("selectArticlesPrice").value = entree?.detailEntrees[0]?.prixUnitaire;
+
+                    document.querySelectorAll(".new-select-article-row").forEach(elem => elem.remove());
+                    for (let i = 1; i < entree?.detailEntrees.length; i++) {
+                        const currentArticleData = entree?.detailEntrees[i];
+
+                        console.log(currentArticleData);
+                        
+                        handleAddArticleRow(currentArticleData?.article?.id, currentArticleData?.prixUnitaire, i-1);                               
+                    }
+
                     // Open the modal manually (if needed)
                     $("#nouvelleEntreeModal").modal("show");
                 });
@@ -342,55 +353,135 @@ function getAndFillData() {
     }
     fetchEntree()
 
+}
+getAndFillData()
+
     
-    const articlesAndPartenersQuery = `
-    query MyQuery {
-        getAllArticles {
-            id
-            nom
-        }
-        getAllPartenaires {
-            id
-            nom
-        }
-    }`;
-
-    async function fetchArticlesAndPartenersQuery() {
-        fetch(window.constants.backend_url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ query: articlesAndPartenersQuery }),
-        })
-        .then((response) => response.json())
-        .then(data => data?.data)
-        .then((data) => {
-            const selectedPartenaire = document.getElementById("selectedPartenaire");
-            
-            data?.getAllPartenaires?.forEach(partner => {
-                selectedPartenaire.insertAdjacentHTML("beforeend", 
-                    `<option value="${partner?.id}">${partner?.nom}</option>`)
-            })
-            
-            const selectArticlesDropdown = document.getElementById("selectArticles");
-            
-            data?.getAllArticles?.forEach(article => {
-                selectArticlesDropdown.insertAdjacentHTML("beforeend", 
-                    `<option value="${article?.id}">${article?.nom}</option>`)
-            })
-            
-            
-        })
-        .catch(() => {
-            console.error("Failed to fetch articles and partners");
-        });
-
+const articlesAndPartenersQuery = `
+query MyQuery {
+    getAllArticles {
+        id
+        nom
     }
-    fetchArticlesAndPartenersQuery();
+    getAllPartenaires {
+        id
+        nom
+    }
+}`;
+
+async function fetchArticlesAndPartenersQuery(currentArticleValue, lineIndex) {
+    console.log({currentArticleValue, lineIndex});
+    
+    fetch(window.constants.backend_url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query: articlesAndPartenersQuery }),
+    })
+    .then((response) => response.json())
+    .then(data => data?.data)
+    .then((data) => {
+        const selectedPartenaire = document.getElementById("selectedPartenaire");
+        
+        data?.getAllPartenaires?.forEach(partner => {
+            selectedPartenaire.insertAdjacentHTML("beforeend", 
+                `<option value="${partner?.id}">${partner?.nom}</option>`)
+        })
+        
+        const selectArticlesDropdown = document.querySelectorAll(".select-article");
+        
+        data?.getAllArticles?.forEach(article => {
+            document.querySelectorAll(".new-select-article-row").forEach(articlesdropdown => {
+                articlesdropdown.querySelector(".select-article").innerHTML = `<option value="" default>Toutes les articles</option>`;
+            })
+        })
+
+        data?.getAllArticles?.forEach(article => {
+            selectArticlesDropdown.forEach(articlesdropdown => {
+                articlesdropdown.insertAdjacentHTML("beforeend", 
+                    `<option value="${article?.id}">${article?.nom}</option>`);
+            })
+        })
+
+        if(currentArticleValue !== undefined && lineIndex !== undefined) {
+            selectArticlesDropdown[lineIndex].value = currentArticleValue;
+        }
+        
+        
+    })
+    .catch(() => {
+        console.error("Failed to fetch articles and partners");
+    });
+
+}
+fetchArticlesAndPartenersQuery();
+
+// Handle adding a new article row
+document.getElementById('addRowBtn').addEventListener('click', () => handleAddArticleRow());
+
+
+function handleAddArticleRow(currentArticleValue = undefined, currentArticlePrice = undefined, lineIndex = undefined) {
+    const articleRow = document.createElement('div');
+    articleRow.classList.add('article-row', 'mb-2', 'new-select-article-row');
+    articleRow.innerHTML = `
+        <select name="selectArticles[]" class="form-control select-article">
+            <option value="">Toutes les articles</option>
+        </select>
+        <input type="number" name="price[]" class="form-control price-input" placeholder="Prix" required min="0.01" step="0.01">
+        <button type="button" class="btn btn-danger btn-sm delete-row-btn">Supprimer</button>
+    `;
+    document.getElementById('articlesContainer').appendChild(articleRow);
+
+    fetch(window.constants.backend_url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query: articlesAndPartenersQuery }),
+    })
+    .then((response) => response.json())
+    .then(data => data?.data)
+    .then((data) => {
+        const selectArticlesRow = document.querySelectorAll(".new-select-article-row");
+        
+        data?.getAllArticles?.forEach(() => {
+            selectArticlesRow.forEach(articlesdropdown => {
+                articlesdropdown.querySelector(".select-article").innerHTML = `<option value="" default>Toutes les articles</option>`;
+            })
+        })
+
+        data?.getAllArticles?.forEach(article => {
+            selectArticlesRow.forEach(articlesdropdown => {
+                articlesdropdown.querySelector(".select-article").insertAdjacentHTML("beforeend", 
+                    `<option value="${article?.id}">${article?.nom}</option>`);
+            })
+        })
+
+        console.log(selectArticlesRow[lineIndex]);
+        console.log(currentArticleValue);
+        
+        if(currentArticleValue !== undefined && lineIndex !== undefined) {
+            selectArticlesRow[lineIndex].querySelector(".select-article").value = currentArticleValue;
+        }
+        
+        if(currentArticlePrice !== undefined && lineIndex !== undefined) {
+            selectArticlesRow[lineIndex].querySelector(".price-input").value = currentArticlePrice;
+        }
+        
+        
+    })
+    .catch(() => {
+        console.error("Failed to fetch articles and partners");
+    });
+
+
+    // Attach delete event to the new delete button
+    articleRow.querySelector('.delete-row-btn').addEventListener('click', function() {
+        articleRow.remove();
+    });
 }
 
-getAndFillData()
 
 document.querySelector(".show-add-entree-modal-btn").addEventListener("click", () => {
     const form = document.getElementById("entryForm");
@@ -398,6 +489,8 @@ document.querySelector(".show-add-entree-modal-btn").addEventListener("click", (
 
     document.getElementById("files-upload-inactive-container").style.display = "none";
     document.getElementById("files-upload-container").style.display = "block";
+
+    document.querySelectorAll(".new-select-article-row").forEach(elem => elem.remove());
 
     form.querySelector("button[type=submit]").textContent = "Ajouter l'entree";
     document.getElementById("nouvelleEntreeModalLabel").textContent = "Nouvelle Entrée";
@@ -416,30 +509,60 @@ form.addEventListener("submit", (e) => {
     })
 
     formObject.filesIds = filesIds;
+
+    const articlesData = [];
+
+    // Get selected articles and prices
+    const selectArticles = document.querySelectorAll('[name="selectArticles[]"]');
+    const prices = document.querySelectorAll('[name="price[]"]');
+
+    for (let i = 0; i < selectArticles.length; i++) {
+        const articleId = selectArticles[i].value;
+        const price = prices[i] ? prices[i].value : 0;
+
+        if (articleId && price) {
+            articlesData.push({
+                articleId: articleId,
+                prixUnitaire: parseFloat(price)
+            });
+        }
+    }
+
+    // Add articles data to the form data
+    formObject.articles = articlesData;
+
+    // Now you can send this formObject to your server using fetch, AJAX, or any other method.
+    console.log('Form data:', formObject);
+    
+    // Build the GraphQL mutation query string manually
+    let articlesQueryString = articlesData.map(article => {
+        return `{articleId:${article.articleId}, prixUnitaire:${article.prixUnitaire}}`;
+    }).join(', ');
     
     if(form.dataset.type === "add"){
         const currentDate = new Date().toISOString();
         form.querySelector("button[type=submit]").disabled = true;
-        
-        
+
         const query = `
         mutation MyMutation {
             createEntree(
-                input: {partenaireId: "${formObject.selectedPartenaire}", 
-                designation: "${formObject.designation}", 
-                numeroBand: "${formObject.nbl}", 
-                totalHt: ${formObject.totalHT}, 
-                totalTtc: ${formObject.totalTTC}, 
-                totalTva: ${formObject.totalTVA}, 
-                filesIds: ${JSON.stringify(formObject.filesIds)},
-                details: {
-                    articleId: "${formObject.selectArticles}"
-                }}
+                input: {
+                    partenaireId: "${formObject.selectedPartenaire}", 
+                    designation: "${formObject.designation}", 
+                    numeroBand: "${formObject.nbl}", 
+                    totalHt: ${formObject.totalHT}, 
+                    totalTtc: ${formObject.totalTTC}, 
+                    totalTva: ${formObject.totalTVA}, 
+                    filesIds: ${JSON.stringify(formObject.filesIds)},
+                    details: [${articlesQueryString}]
+                }
             ) {
                 id
             }
         }`;        
 
+        console.log(query);
+        
         fetch(window.constants.backend_url, {
             method: "POST",
             headers: {
@@ -449,10 +572,10 @@ form.addEventListener("submit", (e) => {
         })
         .then((response) => response.json())
         .then(() => {
-            window.location.reload();
+            // window.location.reload();
         })
         .catch(() => {
-            window.location.reload();
+            // window.location.reload();
             console.error("Failed to create article");
         });
     } else if(form.dataset.type === "edit") {
@@ -468,10 +591,8 @@ form.addEventListener("submit", (e) => {
                     totalTtc: ${formObject.totalTTC}, 
                     totalTva: ${formObject.totalTVA}, 
                     numeroBand: "${formObject.nbl}",
-                    details: {
-                        articleId: "${formObject.selectArticles}"
-                    }, 
-                    designation: "${formObject.designation}", 
+                    details: [${articlesQueryString}],
+                    designation: "${formObject.designation}"
                 }
             ) {
                 id
