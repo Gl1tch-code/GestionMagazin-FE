@@ -28,7 +28,7 @@ function getAndFillData() {
                 const actionMenu = `
                     <td style="width: 250px;">
                         <div class="d-flex flex-wrap gap-3">
-                            <div class="d-flex w-100 gap-2">
+                            <div class="d-flex w-100 gap-2" id="admin-only-viewed">
                                 <!-- First pair -->
                                 <button type="button" class="edit-btn btn btn-primary btn-sm pr-2 m-1 w-50" data-toggle="modal" data-target="#addPartenaireModal" title="Modifier">
                                 <i class="fas fa-edit"></i> Modifier
@@ -131,6 +131,13 @@ function getAndFillData() {
                     window.print();
                 });
             })
+
+            if (currentUser.role === window.constants.USERS_ROLES.user) {
+                document.querySelectorAll("#admin-only-viewed")
+                .forEach((actionMenu) => {
+                    actionMenu.className = "d-none w-100 gap-2";
+                })
+            }
 
         })
     }
