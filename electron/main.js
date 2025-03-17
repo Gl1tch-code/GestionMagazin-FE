@@ -26,9 +26,9 @@ function createWindow() {
     mainWindow.setTitle('Systém de Gestion du Magasin -Commune Taounate');
 
     // Set application icon
-    mainWindow.setIcon(path.join(__dirname, '../app/images/logo.jpeg'));
+    mainWindow.setIcon(path.join(__dirname, '/app/images/logo.ico'));
 
-    mainWindow.loadFile(path.join(__dirname, '../app/login.html'));
+    mainWindow.loadFile(path.join(__dirname, '/app/login.html'));
 
     // Handle window close
     mainWindow.on('close', () => {

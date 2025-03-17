@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    
+    <!-- theme meta -->
+    <meta name="theme-name" content="quixlab" />
+  
+    <title>Gestion du Magasin</title>
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="images/logo.png">
+    <!-- Pignose Calender -->
+    <link href="plugins/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
+    <!-- Chartist -->
+    <link rel="stylesheet" href="plugins/chartist/css/chartist.min.css">
+    <link rel="stylesheet" href="plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
+    <!-- Custom Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
+</head>
+
+<body>
+    <div class="main-wrapper">
+
+
+        <!--**********************************
+            Logo start
+        ***********************************-->
+        <div class="nav-header">
+            <div class="brand-logo">
+                <a href="javascript:void(0)">
+                    <!-- Logo that is always visible -->
+                    <b class="logo-abbr"><img src="images/logo.png" alt="Logo" style="width: 100px; height: auto;"> </b>
+
+                    <!-- Compact logo (logo2) that will be hidden when sidebar is collapsed -->
+                    <img src="images/logo2.png" alt="Compact Logo" class="logo-compact" style="max-width: 250px; height: auto; display: block;">
+                </a>
+            </div>
+        </div>
+        <!--**********************************
+            Logo end
+        ***********************************-->
+
+
+        <!--**********************************
+            Début de l'en-tête
+        ***********************************-->
+        <div id="navbar-placeholder"></div>
+        <script src="loadNavbar.js"></script>
+        <!--**********************************
+            Fin de l'en-tête
+        ***********************************-->
+
+
+
+
+        <!--**********************************
+            Sidebar start
+        ***********************************-->
+        <div id="sidebar-placeholder"></div>
+        <script src="loadSidebar.js"></script>
+        <script src="./global.js"></script>
+        <!--**********************************
+            Sidebar end
+        ***********************************-->
+
+        
+
+        <!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body">
+
+
+        <!--**********************************
+            DateTime start
+        ***********************************-->
+            <div class="row page-titles mx-0">
+                <!-- Div to display the current date and time -->
+                <div class="col p-md-0">
+                    <h4 class="text-dark" id="datetime"></h4>
+                </div>
+                            <!-- Link to the external JavaScript file for handling datetime -->
+            <script src="js/datetime.js"></script>   
+            </div>         
+        <!--**********************************
+            DateTime end
+        ***********************************-->
+
+    
+
+            <div class="container-fluid">
+
+                <!-- L'éta du Stock -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h5 class="mb-3">Imprimer les stockes</h5>
+                    </div>
+                    <!-- Filter by Category -->
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="categoryFilter" class="form-label">Par Catégorie</label>
+                        <select class="form-control" id="articleType" required>
+                            <option value="">Toutes les ctégories</option>
+                            <option value="Type A">FOURNITURE DE BUREAU</option>
+                            <option value="Type B">FOURNITURE INFORMATIQUE</option>
+                            <option value="Type C">FOURNITURE ECLAIRAGE PUBLIC</option>
+                        </select>
+                      </div>
+                    </div>
+                  
+                    <!-- Date Filter -->
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="dateFilter" class="form-label">Date Filtre</label>
+                        <input type="date" id="dateFilter" class="form-control">
+                      </div>
+                    </div>
+                  
+                    <!-- Print Button -->
+                    <div class="col-md-4 d-flex align-items-center">
+                        <button id="printStock" class="btn btn-green btn-block py-3 px-3">
+                            <i class="fa fa-box"></i> Imprimer L'état de Stock
+                          </button>                          
+                    </div>
+
+                </div>
+
+                <!-- Entré -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h5 class="mb-3">Imprimer les entrées</h5>
+                    </div>
+                    
+                    <!-- Filter by Category -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="entryCategoryFilter" class="form-label">Par Catégorie</label>
+                            <select class="form-control" id="articleType" required>
+                                <option value="">Toutes les ctégories</option>
+                                <option value="Type A">FOURNITURE DE BUREAU</option>
+                                <option value="Type B">FOURNITURE INFORMATIQUE</option>
+                                <option value="Type C">FOURNITURE ECLAIRAGE PUBLIC</option>
+                            </select>
+                        </div>
+                    </div>
+            
+                    <!-- Date Filter -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="entryDateFilter" class="form-label">Date Filtre</label>
+                            <input type="date" id="entryDateFilter" class="form-control">
+                        </div>
+                    </div>
+            
+                    <!-- Submit Button -->
+                    <div class="col-md-4 d-flex align-items-center">
+                        <button id="entrySubmit" class="btn btn-green btn-block py-3 px-3">
+                            <i class="fa fa-exchange-alt"></i> Imprimer les Entrées
+                          </button>                          
+                    </div>
+                </div>
+            
+                <!-- Sortie -->
+                <div class="row">
+                    <div class="col-12">
+                        <h5 class="mb-3">Imprimer les sorties</h5>
+                    </div>
+                    
+                    <!-- Filter by Division (Service) -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="divisionFilter" class="form-label">Par Division</label>
+                            <select class="form-control" id="division" name="division">
+                                <option value="division1">Division de Travaux et Construction</option>
+                                <option value="division2">Division des Ressources Humaines</option>
+                            </select>
+                        </div>
+                    </div>
+            
+                    <!-- Filter by Category -->
+                    <!-- <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="sortieCategoryFilter" class="form-label">Par Catégorie</label>
+                            <select id="sortieCategoryFilter" class="form-control">
+                                <option value="" disabled selected>Choisir une catégorie</option>
+                                <option value="1">Catégorie 1</option>
+                                <option value="2">Catégorie 2</option>
+                                <option value="3">Catégorie 3</option>
+                            </select>
+                        </div>
+                    </div> -->
+            
+                    <!-- Date Filter -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="sortieDateFilter" class="form-label">Date Filtre</label>
+                            <input type="date" id="sortieDateFilter" class="form-control">
+                        </div>
+                    </div>
+            
+                    <!-- Submit Button -->
+                    <div class="col-md-4 d-flex align-items-center mt-3">
+                        <button id="sortieSubmit" class="btn btn-green btn-block py-3 px-3">
+                            <i class="fa fa-exchange-alt"></i> Imprimer les sorties
+                          </button>                          
+                    </div>
+                </div>
+            
+            </div>
+            
+
+            <!-- Print Preview Modal -->
+            <div class="modal fade" id="printPreviewModal" tabindex="-1" aria-labelledby="printPreviewLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="printPreviewLabel">Aperçu avant impression</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="printPreviewContent">
+                        <!-- Dynamic content will be loaded here -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        <button type="button" class="btn btn-green" id="confirmPrint">
+                        <i class="fa fa-print"></i> Imprimer
+                        </button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+              
+
+
+            <!-- #/ container -->
+        </div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
+        
+        
+        <!--**********************************
+            Footer start
+        ***********************************-->
+        <div class="footer">
+            <div class="copyright">
+                <p>Gestion du Magasin</a> 2025</p>
+            </div>
+        </div>
+        <!--**********************************
+            Footer end
+        ***********************************-->
+    </div>
+    <!--**********************************
+        Main wrapper end
+    ***********************************-->
+
+
+    <!-- JavaScript of Printing Functions -->
+     <!-- !! There are a problem here I will fix it then !! -->
+        <script>
+            function handlePreview(sectionId) {
+                const modalContent = document.getElementById('printPreviewContent');
+                const filters = {};
+
+                if (sectionId === 'stock') {
+                    filters.category = document.getElementById('categoryFilter').value;
+                    filters.date = document.getElementById('dateFilter').value;
+                } else if (sectionId === 'entry') {
+                    filters.category = document.getElementById('entryCategoryFilter').value;
+                    filters.date = document.getElementById('entryDateFilter').value;
+                } else if (sectionId === 'sortie') {
+                    filters.division = document.getElementById('divisionFilter').value;
+                    filters.date = document.getElementById('sortieDateFilter').value;
+                }
+
+                modalContent.innerHTML = `
+                    <p><strong>Filtres appliqués:</strong></p>
+                    <ul>
+                        ${Object.entries(filters).map(([key, value]) => `<li>${key}: ${value || 'Non spécifié'}</li>`).join('')}
+                    </ul>
+                    <p><strong>Contenu des données:</strong></p>
+                    <p>Les données filtrées apparaîtront ici...</p>
+                `;
+
+                const modal = new bootstrap.Modal(document.getElementById('printPreviewModal'));
+                modal.show();
+
+                document.getElementById('confirmPrint').onclick = function () {
+                    const printWindow = window.open('', '_blank');
+                    printWindow.document.write('<html><head><title>Impression</title></head><body>');
+                    printWindow.document.write(modalContent.innerHTML);
+                    printWindow.document.write('</body></html>');
+                    printWindow.document.close();
+                    printWindow.print();
+                };
+            }
+
+            document.getElementById('printStock').addEventListener('click', () => handlePreview('stock'));
+            document.getElementById('entrySubmit').addEventListener('click', () => handlePreview('entry'));
+            document.getElementById('sortieSubmit').addEventListener('click', () => handlePreview('sortie'));
+        </script>
+    <!-- The end of this fucking script -->
+
+
+
+
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <script src="plugins/common/common.min.js"></script>
+    <script src="js/custom.min.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/gleek.js"></script>
+    <script src="js/styleSwitcher.js"></script>
+</body>
+
+</html>

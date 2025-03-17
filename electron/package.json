@@ -5,30 +5,35 @@
   "license": "ISC",
   "author": "Your Name",
   "type": "commonjs",
-  "main": "main.js", 
+  "main": "main.js",
   "scripts": {
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:win": "electron-builder --win --x64"
   },
-  "dependencies": {},
   "devDependencies": {
     "electron": "^34.0.1",
     "electron-builder": "^25.1.8"
   },
   "build": {
+    "asarUnpack": [
+      "app/**/*",
+      "resources/**/*"
+    ],
     "appId": "com.example.gestiondemagasin",
     "productName": "Gestion De Magasin",
     "win": {
-      "target": "nsis",
-      "icon": "icons/logo.png" 
+      "sign": false,
+      "target": "nsis"
     },
     "directories": {
       "output": "dist"
     },
     "files": [
-      "app/**/*",   
-      "main.js",   
+      "app/**/*",
+      "app/**/**",
+      "app/*",
+      "main.js",
       "package.json"
     ]
   }

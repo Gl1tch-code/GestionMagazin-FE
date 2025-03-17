@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    
+    <!-- theme meta -->
+    <meta name="theme-name" content="quixlab" />
+  
+    <title>Gestion du Magasin</title>
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="./images/logo.png">
+    <!-- Pignose Calender -->
+    <link href="plugins/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
+    <!-- Chartist -->
+    <link rel="stylesheet" href="plugins/chartist/css/chartist.min.css">
+    <link rel="stylesheet" href="plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
+    <!-- Custom Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
+</head>
+
+<body>
+
+    
+    <!--**********************************
+        Main wrapper start
+    ***********************************-->
+    <div id="main-wrapper">
+
+        <!--**********************************
+            Nav header start
+        ***********************************-->
+        
+        <!--**********************************
+            Logo start
+        ***********************************-->
+        <div class="nav-header">
+            <div class="brand-logo">
+                <a href="javascript:void(0)">
+                    <!-- Logo that is always visible -->
+                    <b class="logo-abbr"><img src="./images/logo.png" alt="Logo" style="width: 100px; height: auto;"> </b>
+
+                    <!-- Compact logo (logo2) that will be hidden when sidebar is collapsed -->
+                    <img src="./images/logo2.png" alt="Compact Logo" class="logo-compact" style="max-width: 250px; height: auto; display: block;">
+                </a>
+            </div>
+        </div>
+        <!--**********************************
+            Logo end
+        ***********************************-->
+
+
+
+        <!--**********************************
+            Nav header end
+        ***********************************-->
+
+        <!--**********************************
+            Début de l'en-tête
+        ***********************************-->
+        <div id="navbar-placeholder"></div>
+        <script src="./loadNavbar.js"></script>
+        <!--**********************************
+            Fin de l'en-tête
+        ***********************************-->
+
+        <!--**********************************
+            Sidebar start
+        ***********************************-->
+        <div id="sidebar-placeholder"></div>
+        <script src="./loadSidebar.js"></script>
+        <script src="./global.js"></script>
+        <!--**********************************
+            Sidebar end
+        ***********************************-->
+
+
+
+
+    <!--**********************************
+        Body start
+    ***********************************-->
+    <div class="content-body">
+        <div class="container-fluid mt-3">
+            <!-- Chart Section -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Distribution des Articles par Catégorie</h4>
+                            <div id="morris-bar-chart" style="height: 250px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cartes des Statistiques -->
+            <div class="row">
+                <!-- Carte Stock Total -->
+                <div class="col-lg-6 col-sm-12">
+                    <div class="card gradient-3">
+                        <div class="card-body">
+                            <h3 class="card-title text-white">Stock Total</h3>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h2 class="text-white mb-0">1 200 Articles</h2>
+                                    <p class="text-white mb-0">Articles en stock</p>
+                                </div>
+                                <div class="display-4 text-white opacity-5">
+                                    <i class="fas fa-boxes"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Carte Mouvements -->
+                <div class="col-lg-6 col-sm-12">
+                    <div class="card gradient-4">
+                        <div class="card-body">
+                            <h3 class="card-title text-white">Mouvements</h3>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h2 class="text-white mb-0">45/20</h2>
+                                    <p class="text-white mb-0">Entrées/Sorties du semaine</p>
+                                </div>
+                                <div class="display-4 text-white opacity-5">
+                                    <i class="fas fa-exchange-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Info Cards Row -->
+            <div class="row">
+                <!-- Low Stock Card -->
+                <div class="col-lg-12 col-sm-12 mb-4">
+                    <div class="card gradient-1 shadow-sm">
+                        <div class="card-body">
+                            <!-- Card Header -->
+                            <h3 class="card-title text-white">Articles en Stock Faible</h3>
+
+                            <!-- Filter Section -->
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <label for="stock-filter" class="text-white mb-0 mr-3">Filtrer par Catégorie</label>
+                                    <select id="stock-filter" class="form-control form-control-sm rounded w-25">
+                                        <option value="type-a">TOUTES CATÉGORIES</option>
+                                        <option value="type-a">FOURNITURE DE BUREAU</option>
+                                        <option value="type-b">FOURNITURE DE BUREAU</option>
+                                        <option value="type-c">FOURNITURE DE SIGNIALISATION</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <!-- Low Stock List -->
+                            <div class="form-group">
+                                <ul class="list-group mt-3" style="max-height: 150px; overflow-y: auto;">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center mb-2">
+                                        <span class="text-dark font-weight-bold">Lamp LED E40-100W</span>
+                                        <span class="badge badge-danger badge-pill">10%</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center mb-2">
+                                        <span class="text-dark font-weight-bold">Cable Souple 2x2,5 ML</span>
+                                        <span class="badge badge-danger badge-pill">45%</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center mb-2">
+                                        <span class="text-dark font-weight-bold">Tonner</span>
+                                        <span class="badge badge-danger badge-pill">35%</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center mb-2">
+                                        <span class="text-dark font-weight-bold">Tube LED T8 18W</span>
+                                        <span class="badge badge-danger badge-pill">50%</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center mb-2">
+                                        <span class="text-dark font-weight-bold">Interrupteur Double</span>
+                                        <span class="badge badge-danger badge-pill">20%</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center mb-2">
+                                        <span class="text-dark font-weight-bold">Projecteur 100W</span>
+                                        <span class="badge badge-danger badge-pill">15%</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center mb-2">
+                                        <span class="text-dark font-weight-bold">Disjoncteur 16A</span>
+                                        <span class="badge badge-danger badge-pill">40%</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center mb-2">
+                                        <span class="text-dark font-weight-bold">Spot LED GU10</span>
+                                        <span class="badge badge-danger badge-pill">30%</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center mb-2">
+                                        <span class="text-dark font-weight-bold">Câble Ethernet Cat 6</span>
+                                        <span class="badge badge-danger badge-pill">25%</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center mb-2">
+                                        <span class="text-dark font-weight-bold">Prise Murale</span>
+                                        <span class="badge badge-danger badge-pill">5%</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Consumption Card -->
+                <div class="col-lg-12 col-sm-12 mb-4">
+                    <div class="card gradient-2 shadow-sm rounded">
+                        <div class="card-body">
+                            <!-- Header with Switch -->
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h3 class="card-title text-white">Top Consommation</h3>
+                                <label class="form-switch">
+                                    <input type="checkbox" id="toggleSwitch">
+                                    <span class="switch-slider"></span>
+                                    <span class="text-white ml-2 font-weight-bold">Division / Service</span>
+                                </label>
+                            </div>
+
+                            <!-- Division Content -->
+                            <div id="division-content" class="content active">
+                                <ul class="list-group">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center rounded shadow-sm border-light mb-2">
+                                        <span class="text-dark font-weight-bold">Division de Travaux et Construction</span>
+                                        <span class="badge badge-primary badge-pill">150 unités</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center rounded shadow-sm border-light mb-2">
+                                        <span class="text-dark font-weight-bold">Division des Ressources Humaines</span>
+                                        <span class="badge badge-primary badge-pill">130 unités</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Service Content -->
+                            <div id="service-content" class="content d-none">
+                                <ul class="list-group">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center rounded shadow-sm border-light mb-2">
+                                        <span class="text-dark font-weight-bold">Service de Supervision de Chantier</span>
+                                        <span class="badge badge-warning badge-pill">200 unités</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center rounded shadow-sm border-light mb-2">
+                                        <span class="text-dark font-weight-bold">Service de Planification et d'Études Techniques</span>
+                                        <span class="badge badge-warning badge-pill">180 unités</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center rounded shadow-sm border-light mb-2">
+                                        <span class="text-dark font-weight-bold">Service de Formation et Développement</span>
+                                        <span class="badge badge-warning badge-pill">160 unités</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center rounded shadow-sm border-light mb-2">
+                                        <span class="text-dark font-weight-bold">Service de Paie et Avantages Sociaux</span>
+                                        <span class="badge badge-warning badge-pill">160 unités</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center rounded shadow-sm border-light mb-2">
+                                        <span class="text-dark font-weight-bold">Service d’Évaluation et de Performance</span>
+                                        <span class="badge badge-warning badge-pill">160 unités</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add the CSS for Switch -->
+            <style>
+                .form-switch {
+                    display: inline-flex;
+                    align-items: center;
+                }
+
+                .form-switch input[type="checkbox"] {
+                    display: none;
+                }
+
+                .form-switch .switch-slider {
+                    width: 40px;
+                    height: 20px;
+                    background: #fff;
+                    border-radius: 10px;
+                    position: relative;
+                    cursor: pointer;
+                    transition: all 0.3s ease-in-out;
+                }
+
+                .form-switch .switch-slider::before {
+                    content: '';
+                    width: 18px;
+                    height: 18px;
+                    background: #007bff;
+                    border-radius: 50%;
+                    position: absolute;
+                    top: 1px;
+                    left: 1px;
+                    transition: all 0.3s ease-in-out;
+                }
+
+                .form-switch input[type="checkbox"]:checked + .switch-slider::before {
+                    transform: translateX(20px);
+                    background: #ffc107;
+                }
+
+                .form-switch input[type="checkbox"]:checked + .switch-slider {
+                    background: #e9ecef;
+                }
+            </style>
+
+            <!-- Add JavaScript to Handle Toggle -->
+            <script>
+                document.getElementById('toggleSwitch').addEventListener('change', function () {
+                    const divisionContent = document.getElementById('division-content');
+                    const serviceContent = document.getElementById('service-content');
+
+                    if (this.checked) {
+                        divisionContent.classList.add('d-none');
+                        serviceContent.classList.remove('d-none');
+                    } else {
+                        serviceContent.classList.add('d-none');
+                        divisionContent.classList.remove('d-none');
+                    }
+                });
+            </script>
+
+        </div>
+    </div>
+
+
+    <!-- Required Scripts -->
+    <script src="plugins/raphael/raphael.min.js"></script>
+    <script src="plugins/morris/morris.min.js"></script>
+
+    <!-- Chart Initialization -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Morris Bar Chart
+        Morris.Bar({
+            element: 'morris-bar-chart',
+            data: [
+                { y: 'FOURNITURE DE BUREAU', a: 100 },
+                { y: 'MATÉRIEL INFORMATIQUE', a: 75 },
+                { y: 'CONSOMMABLES', a: 50 },
+                { y: 'MOBILIER DE BUREAU', a: 30 },
+                { y: 'ÉLECTRICITÉ', a: 60 },
+                { y: 'MATÉRIAUX DE CONSTRUCTION', a: 40 },
+                { y: 'QUINCAILLERIE', a: 25 },
+                { y: 'PLOMBERIE', a: 45 },
+                { y: 'OUTILLAGE', a: 35 }
+            ],
+            xkey: 'y',
+            ykeys: ['a'],
+            labels: ['Quantité'],
+            barColors: ['#4d7cff'],
+            hideHover: 'auto',
+            gridLineColor: 'transparent',
+            resize: true
+        });
+
+        // Toggle between Division and Service views
+        document.getElementById('viewToggle')?.addEventListener('change', function() {
+            const divisionView = document.getElementById('division-view');
+            const serviceView = document.getElementById('service-view');
+            
+            if (this.checked) {
+                divisionView.classList.add('d-none');
+                serviceView.classList.remove('d-none');
+            } else {
+                serviceView.classList.add('d-none');
+                divisionView.classList.remove('d-none');
+            }
+        });
+    });
+    </script>
+    <!--**********************************
+        Body end
+    ***********************************-->
+
+
+
+
+
+
+
+    <div class="footer">
+        <div class="copyright">
+            <p>Gestion du Magasin 2025</p>
+        </div>
+    </div>
+
+    
+
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <script src="plugins/common/common.min.js"></script>
+    <script src="js/custom.min.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/gleek.js"></script>
+    <script src="js/styleSwitcher.js"></script>
+    <script src="plugins/chart.js/Chart.bundle.min.js"></script>
+    <script src="plugins/raphael/raphael.min.js"></script>
+    <script src="plugins/morris/morris.min.js"></script>    
+    <script src="js/plugins-init/morris-init.js"></script>
+    <script src="js/dashboard/dashboard-1.js"></script>
+
+
+
+
+</body>
+
+</html>

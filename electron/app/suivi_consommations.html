@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    
+    <!-- theme meta -->
+    <meta name="theme-name" content="quixlab" />
+  
+    <title>Gestion du Magasin</title>
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="images/logo.png">
+    <!-- Pignose Calender -->
+    <link href="plugins/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
+    <!-- Chartist -->
+    <link rel="stylesheet" href="plugins/chartist/css/chartist.min.css">
+    <link rel="stylesheet" href="plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
+    <!-- Custom Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
+</head>
+
+<body>
+
+    
+    <!--**********************************
+        Main wrapper start
+    ***********************************-->
+    <div id="main-wrapper">
+
+        <!--**********************************
+            Nav header start
+        ***********************************-->
+        <!--**********************************
+            Logo start
+        ***********************************-->
+        <div class="nav-header">
+            <div class="brand-logo">
+                <a href="javascript:void(0)">
+                    <!-- Logo that is always visible -->
+                    <b class="logo-abbr"><img src="images/logo.png" alt="Logo" style="width: 100px; height: auto;"> </b>
+
+                    <!-- Compact logo (logo2) that will be hidden when sidebar is collapsed -->
+                    <img src="images/logo2.png" alt="Compact Logo" class="logo-compact" style="max-width: 250px; height: auto; display: block;">
+                </a>
+            </div>
+        </div>
+        <!--**********************************
+            Logo end
+        ***********************************-->
+        <!--**********************************
+            Nav header end
+        ***********************************-->
+
+        <!--**********************************
+            Début de l'en-tête
+        ***********************************-->
+        <div id="navbar-placeholder"></div>
+        <script src="loadNavbar.js"></script>
+        <!--**********************************
+            Fin de l'en-tête
+        ***********************************-->
+
+        <!--**********************************
+            Sidebar start
+        ***********************************-->
+        <div id="sidebar-placeholder"></div>
+        <script src="loadSidebar.js"></script>
+        <script src="./global.js"></script>
+        <!--**********************************
+            Sidebar end
+        ***********************************-->
+        
+
+        <!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body">
+            <div class="container-fluid">
+
+                        <!-- Data Visualization -->
+                        <!-- <div class="row">
+                            <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Répartition des Consommations</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="pieChart" width="400" height="400"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                
+
+                <!-- Filters and Summary Cards -->
+                <div class="row">
+                    <!-- Summary Cards -->
+
+                    <!-- Total Consommation -->
+                    <div class="col-12">
+                        <div class="card gradient-1">
+                            <div class="card-body">
+                                <h3 class="card-title text-white">Total Consommation</h3>
+                                <div class="d-inline-block">
+                                    <h2 class="text-white">45000 Articles</h2>
+                                    <p class="text-white mb-0">2025-01-07</p>
+                                </div>
+                                <span class="float-right display-5 opacity-5"><i class="fa fa-shopping-cart"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Date Plus Consommable -->
+                    <div class="col-12">
+                        <div class="card gradient-3">
+                            <div class="card-body">
+                                <h3 class="card-title text-white">Date Plus Consommable</h3>
+                                <div class="d-inline-block">
+                                    <h2 class="text-white">4399 Articles</h2>
+                                    <p class="text-white mb-0">2025-01-07</p>
+                                </div>
+                                <span class="float-right display-5 opacity-5"><i class="fa fa-calendar"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Prix Total -->
+                    <div class="col-12">
+                        <div class="card gradient-8">
+                            <div class="card-body">
+                                <h3 class="card-title text-white">Prix Total</h3>
+                                <div class="d-inline-block">
+                                    <h2 class="text-white">190,348 DH</h2>
+                                    <p class="text-white mb-0"></p>
+                                </div>
+                                <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- Data Table of Suivi Consommation -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Suivi Consommation</h4>
+                                <div class="table-responsive">
+                                    <table class="table header-border">
+                                        <thead>
+                                            <tr class="table-success">
+                                                <th>Quantité</th>
+                                                <th>Date de Consommation</th>
+                                                <th>Stock</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>150</td>
+                                                <td>2025-01-01</td>
+                                                <td>Stock A</td>
+                                            </tr>
+                                            <tr>
+                                                <td>300</td>
+                                                <td>2025-01-02</td>
+                                                <td>Stock B</td>
+                                            </tr>
+                                            <tr>
+                                                <td>450</td>
+                                                <td>2025-01-03</td>
+                                                <td>Stock C</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
+
+        <!-- Include Chart.js -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="js/suivi_consommation.js"></script>
+        
+        <!--**********************************
+            Footer start
+        ***********************************-->
+        <div class="footer">
+            <div class="copyright">
+                <p>Gestion du Magasin</a> 2025</p>
+            </div>
+        </div>
+        <!--**********************************
+            Footer end
+        ***********************************-->
+    </div>
+    <!--**********************************
+        Main wrapper end
+    ***********************************-->
+
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <script src="plugins/common/common.min.js"></script>
+    <script src="js/custom.min.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/gleek.js"></script>
+    <script src="js/styleSwitcher.js"></script>
+
+</body>
+
+</html>
