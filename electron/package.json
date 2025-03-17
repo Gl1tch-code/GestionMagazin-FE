@@ -23,7 +23,7 @@
     "appId": "com.example.gestiondemagasin",
     "productName": "Gestion De Magasin",
     "win": {
-      "icon": "app/images/logo.png",
+      "icon": "app/images/logo.ico",
       "sign": false,
       "target": "nsis"
     },
