@@ -21,6 +21,73 @@
     <link href="css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
+    <style>
+        #exportDataTemplate{
+            width: 2200x;
+            height: 3300px;
+            background-color: #fff;
+            position: absolute;
+            z-index: 99999;
+            
+            .exportContent{
+                width: 100%;
+            }
+            .subtitle-infos{
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            .end.subtitle-infos{
+                display: flex;
+                justify-content: end;
+            }
+            .start.subtitle-infos{
+                display: flex;
+                flex-direction: column;
+                justify-content: start;
+            }
+            .item-value-black{
+                color: gray;
+                font-size: 25px;
+            }
+            .item-title-gray{
+                color: black;
+                font-size: 25px;
+            }
+
+            table {
+                margin-top: 25px;
+                width: 100%;
+                border-collapse: collapse;
+            }
+            th, td {
+                font-size: 25px;
+                border: 1px solid black;
+                color: black;
+                padding: 20px;
+                text-align: left;
+                /* width: auto; */
+            }
+        }
+
+        @media print {
+            .main-wrapper{
+                display: none;
+            }
+            .main-wrapper *{
+                display: none;
+            }
+            #loader-row{
+                display: none;
+            }
+            #loader-row *{
+                display: none;
+            }
+            #exportDataTemplate{
+                display: flex !important;
+            }
+        }
+    </style>
+
 
 </head>
 
@@ -385,6 +452,99 @@
     <script src="js/settings.js"></script>
     <script src="js/gleek.js"></script>
     <script src="js/styleSwitcher.js"></script>
+
+<!-- Export Data Template -->
+
+
+<div id="exportDataTemplate" style="display: none; justify-content: center;align-items: start;">
+
+    
+    <div class="exportContent">
+
+        <div style="display: flex; justify-content: space-between;align-items: center; margin-bottom: 75px;">
+            <div class="logo1"><img style="height: 150px; width: auto;" src="images/royaumeMarocFR.png" alt=""></div>
+            <div class="logo2"><img style="height: 150px; width: auto;" src="images/logo.jpeg" alt=""></div>
+            <div class="logo3"><img style="height: 150px; width: auto;" src="images/royaumeMarocAR.png" alt=""></div>
+        </div>
+            
+        <h1 style="font-size: 45px; text-align: center; margin-bottom: 70px;">Bon de Sortie des Articles Magasin</h1>
+        <div class="subtitle-infos">
+            <span class="item-title-gray"><span>Date: </span><span class="item-value-black" id="date">..........................</span></span>
+        </div>
+
+        <div class="subtitle-infos end">
+            <div style="display: flex; justify-content: start; gap: 15px;flex-direction: column;">
+                <span class="item-title-gray"><span>Bénéficiaire: </span><span class="item-value-black" id="benificiaire">..........................</span></span>
+                <span class="item-title-gray"><span>Division: </span><span class="item-value-black" id="division">..........................</span></span>
+                <span class="item-title-gray"><span>Service: </span><span class="item-value-black" id="service">..........................</span></span>
+            </div>
+        </div>
+
+        <div class="subtitle-infos start">
+            <div style="display: flex; justify-content: start; gap: 15px;flex-direction: column;">
+                <span class="item-title-gray"><span>Responsable de la sortie: </span><span class="item-value-black" id="responsable">..........................</span></span>
+                <span class="item-title-gray"><span>Emplacement d'utilisation : </span><span class="item-value-black" id="emplacement">..........................</span></span>
+            </div>
+        </div>
+
+        <table>
+            <tr>
+                <th>N°</th>
+                <th>Désignation</th>
+                <th>Unité</th>
+                <th>Qté</th>
+                <th>Prix unitaire (HT)</th>
+                <th>Prix Total (HT)</th>
+            </tr>
+            
+
+            <!--     Montants    -->
+                
+            <tr id="montants">
+                <td style="border: none;"></td>
+                <td style="border: none;"></td>
+                <td style="border: none;"></td>
+                <td style="border: none;"></td>
+                <td>Montant total HT</td>
+                <td id="montant-total-ht"></td>
+            </tr>
+            <tr>
+                <td style="border: none;"></td>
+                <td style="border: none;"></td>
+                <td style="border: none;"></td>
+                <td style="border: none;"></td>
+                <td>Montant TVA</td>
+                <td id="montant-tva"></td>
+            </tr>
+            <tr>
+                <td style="border: none;"></td>
+                <td style="border: none;"></td>
+                <td style="border: none;"></td>
+                <td style="border: none;"></td>
+                <td>Montant total TTC</td>
+                <td id="montant-total-ttc"></td>
+            </tr>
+        </table>
+
+        <div style="display: flex; width: 100%; justify-content: space-between;">
+            <div style="text-align: center; font-weight: 700; width: 300px; font-size: 22px; padding-bottom: 80px; border: 5px solid gray; margin-top: 50px;" class="signature-1">Responsable de Sortie :</div>
+            <div style="text-align: center; font-weight: 700; width: 300px; font-size: 22px; padding-bottom: 80px; border: 5px solid gray; margin-top: 50px;" class="signature-2">Signature du Bénéficiaire :</div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
 </body>
 
 </html>

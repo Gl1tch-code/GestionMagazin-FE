@@ -71,9 +71,14 @@ function getAndFillData() {
                 id
                 quantite
                 article {
+                    unite
                     id
                     nom
                     designation
+                    detailEntrees {
+                        tva
+                        prixUnitaire
+                    }
                 }
             }
         }
@@ -227,7 +232,6 @@ function getAndFillData() {
             
                     // Store article ID in a dataset for confirmation later
                     document.getElementById("confirmDelete").dataset.rowId = rowId;
-            
                     // Show the modal
                     $("#deleteModal").modal("show");
                 });
@@ -236,6 +240,41 @@ function getAndFillData() {
             // Print button click handler
             document.querySelectorAll('button[title="Imprimer"]').forEach(printBtn => {
                 printBtn.addEventListener('click', function() {
+                    let row = this.closest("tr"); // Get the closest row
+                    let rowId = row.dataset.id; // Fetch article ID from dataset
+                    const index = row.getAttribute("data-index");
+                    const sortie = data[index];
+
+                    let finalHtmlContent = "";
+
+                    sortie?.detailSorties?.forEach(detailSortie => {
+
+                        const htmlContent = `
+                        <tr>
+                            <td>${detailSortie?.article?.id}</td>
+                            <td>${detailSortie?.article?.designation}</td>
+                            <td>${detailSortie?.article?.unite}</td>
+                            <td>${detailSortie?.quantite}</td>
+                            <td>${detailSortie?.article?.detailEntrees?.[0]?.prixUnitaire} DH</td>
+                            <td>${detailSortie?.article?.detailEntrees?.[0]?.prixUnitaire * detailSortie?.quantite} DH</td>
+                        </tr>`;
+                        finalHtmlContent+= htmlContent;
+    
+                        document.getElementById("montant-total-ht").textContent = `${detailSortie?.article?.detailEntrees?.[0]?.prixUnitaire * detailSortie?.quantite} DH`;
+                        document.getElementById("montant-tva").textContent = `${detailSortie?.article?.detailEntrees?.[0]?.tva || 0} DH`;
+                        document.getElementById("montant-total-ttc").textContent = `${(detailSortie?.article?.detailEntrees?.[0]?.prixUnitaire * detailSortie?.quantite) + (detailSortie?.article?.detailEntrees?.[0]?.tva || 0)} DH`;
+                    })
+                    document.getElementById("date").textContent = new Date().toLocaleDateString();
+
+                    document.getElementById("benificiaire").textContent = `${sortie?.fonctionnaire?.prenom} ${sortie?.fonctionnaire?.nom}`;
+                    document.getElementById("division").textContent = sortie?.fonctionnaire?.serviceClass?.division?.nom;
+                    document.getElementById("service").textContent = sortie?.fonctionnaire?.serviceClass?.nom;
+
+                    document.getElementById("responsable").textContent = JSON.parse(localStorage.getItem("user-infos"))?.username;
+                    document.getElementById("emplacement").textContent = "..........................";
+
+                    document.getElementById("montants").insertAdjacentHTML("beforebegin", finalHtmlContent)
+
                     // Here you would typically trigger the actual print operation
                     window.print();
                 });
