@@ -276,7 +276,7 @@ function getAndFillData() {
                     document.getElementById("service").textContent = sortie?.fonctionnaire?.serviceClass?.nom;
 
                     document.getElementById("responsable").textContent = JSON.parse(localStorage.getItem("user-infos"))?.username;
-                    document.getElementById("emplacement").textContent = "..........................";
+                    document.getElementById("emplacement").textContent = sortie?.motif
 
                     document.getElementById("montants").insertAdjacentHTML("beforebegin", finalHtmlContent)
 
