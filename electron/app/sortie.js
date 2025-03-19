@@ -240,6 +240,11 @@ function getAndFillData() {
             // Print button click handler
             document.querySelectorAll('button[title="Imprimer"]').forEach(printBtn => {
                 printBtn.addEventListener('click', function() {
+
+                    document.querySelectorAll(".sortie-data-row")?.forEach(sortiedatarow => {
+                        sortiedatarow?.remove();
+                    })
+
                     let row = this.closest("tr"); // Get the closest row
                     let rowId = row.dataset.id; // Fetch article ID from dataset
                     const index = row.getAttribute("data-index");
@@ -250,7 +255,7 @@ function getAndFillData() {
                     sortie?.detailSorties?.forEach(detailSortie => {
 
                         const htmlContent = `
-                        <tr>
+                        <tr class="sortie-data-row">
                             <td>${detailSortie?.article?.id}</td>
                             <td>${detailSortie?.article?.designation}</td>
                             <td>${detailSortie?.article?.unite}</td>
