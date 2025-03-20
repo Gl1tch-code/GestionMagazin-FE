@@ -622,10 +622,10 @@ form.addEventListener("submit", (e) => {
         })
         .then((response) => response.json())
         .then(() => {
-            // window.location.reload()
+            window.location.reload()
         })
         .catch(() => {
-            // window.location.reload()
+            window.location.reload()
             console.error("Failed to create article");
         });
 
