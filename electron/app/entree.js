@@ -273,6 +273,7 @@ function getAndFillData() {
             document.querySelectorAll(".edit-btn").forEach(button => {
                 button.addEventListener("click", function () {
                     let row = this.closest("tr");
+                    const index = row.getAttribute("data-index");
                     const currentId = row.dataset.id;
                     document.getElementById("nouvelleEntreeModalLabel").textContent = "Editer l'entree " + currentId
                     const form = document.getElementById("entryForm");
@@ -283,7 +284,6 @@ function getAndFillData() {
                     document.getElementById("files-upload-inactive-container").style.display = "block";
                     document.getElementById("files-upload-container").style.display = "none";
 
-                    
                     // Fetch data from the row
                     let nbl = row.querySelector(".entree-nbl")?.textContent.trim() || "";
                     let partner = row.querySelector(".entree-partner")?.dataset.value || "";
@@ -303,16 +303,21 @@ function getAndFillData() {
                     // Fill Articles
                     const entree = data[row.dataset.index];
 
+                    console.log(entree);
+
+                    document.getElementById("dateAjoute").value = entree?.dateTimeEntree;
+
                     document.getElementById("selectArticles").value = entree?.detailEntrees[0]?.article?.id;
                     document.getElementById("selectArticlesPrice").value = entree?.detailEntrees[0]?.prixUnitaire;
+                    document.getElementById("selectArticlesQuantite").value = entree?.detailEntrees[0]?.quantite;
 
                     document.querySelectorAll(".new-select-article-row").forEach(elem => elem.remove());
                     for (let i = 1; i < entree?.detailEntrees.length; i++) {
                         const currentArticleData = entree?.detailEntrees[i];
 
                         console.log(currentArticleData);
-                        
-                        handleAddArticleRow(currentArticleData?.article?.id, currentArticleData?.prixUnitaire, i-1);                               
+
+                        handleAddArticleRow(currentArticleData?.article?.id, currentArticleData?.prixUnitaire, currentArticleData?.quantite, i-1);                               
                     }
 
                     // Open the modal manually (if needed)
@@ -421,7 +426,7 @@ fetchArticlesAndPartenersQuery();
 document.getElementById('addRowBtn').addEventListener('click', () => handleAddArticleRow());
 
 
-function handleAddArticleRow(currentArticleValue = undefined, currentArticlePrice = undefined, lineIndex = undefined) {
+function handleAddArticleRow(currentArticleValue = undefined, currentArticlePrice = undefined, currentArticleQuantite = undefined ,lineIndex = undefined) {
     const articleRow = document.createElement('div');
     articleRow.classList.add('article-row', 'mb-2', 'new-select-article-row');
     articleRow.innerHTML = `
@@ -429,6 +434,7 @@ function handleAddArticleRow(currentArticleValue = undefined, currentArticlePric
             <option value="">Toutes les articles</option>
         </select>
         <input type="number" name="price[]" class="form-control price-input" placeholder="Prix" required min="0.01" step="0.01">
+        <input type="number" name="quantite[]" class="form-control quntite-input" placeholder="Quantité" required min="1"  id="selectArticlesQuantite">
         <button type="button" class="btn btn-danger btn-sm delete-row-btn">Supprimer</button>
     `;
     document.getElementById('articlesContainer').appendChild(articleRow);
@@ -467,6 +473,10 @@ function handleAddArticleRow(currentArticleValue = undefined, currentArticlePric
         
         if(currentArticlePrice !== undefined && lineIndex !== undefined) {
             selectArticlesRow[lineIndex].querySelector(".price-input").value = currentArticlePrice;
+        }
+        
+        if(currentArticleQuantite !== undefined && lineIndex !== undefined) {
+            selectArticlesRow[lineIndex].querySelector(".quntite-input").value = currentArticleQuantite;
         }
         
         
@@ -515,15 +525,18 @@ form.addEventListener("submit", (e) => {
     // Get selected articles and prices
     const selectArticles = document.querySelectorAll('[name="selectArticles[]"]');
     const prices = document.querySelectorAll('[name="price[]"]');
+    const quantites = document.querySelectorAll('[name="quantite[]"]');
 
     for (let i = 0; i < selectArticles.length; i++) {
         const articleId = selectArticles[i].value;
         const price = prices[i] ? prices[i].value : 0;
+        const quantite = quantites[i] ? quantites[i].value : 0;
 
-        if (articleId && price) {
+        if (articleId && price && quantite) {
             articlesData.push({
                 articleId: articleId,
-                prixUnitaire: parseFloat(price)
+                prixUnitaire: parseFloat(price),
+                quantite: quantite
             });
         }
     }
@@ -533,14 +546,13 @@ form.addEventListener("submit", (e) => {
 
     // Now you can send this formObject to your server using fetch, AJAX, or any other method.
     console.log('Form data:', formObject);
-    
+
     // Build the GraphQL mutation query string manually
     let articlesQueryString = articlesData.map(article => {
-        return `{articleId:${article.articleId}, prixUnitaire:${article.prixUnitaire}}`;
+        return `{articleId:${article.articleId}, prixUnitaire:${article.prixUnitaire}, quantite:${article.quantite}}`;                  ////////////////////
     }).join(', ');
-    
+
     if(form.dataset.type === "add"){
-        const currentDate = new Date().toISOString();
         form.querySelector("button[type=submit]").disabled = true;
 
         const query = `
@@ -548,7 +560,8 @@ form.addEventListener("submit", (e) => {
             createEntree(
                 input: {
                     partenaireId: "${formObject.selectedPartenaire}", 
-                    designation: "${formObject.designation}", 
+                    dateTimeEntree: "${formObject.dateAjoute}"
+                    designation: "${formObject.designation?.replace(/\n/g, "\\n")}", 
                     numeroBand: "${formObject.nbl}", 
                     totalHt: ${formObject.totalHT}, 
                     totalTtc: ${formObject.totalTTC}, 
@@ -587,12 +600,13 @@ form.addEventListener("submit", (e) => {
                 id: "${form.dataset.rowId}"
                 input: {
                     partenaireId: "${formObject.selectedPartenaire}", 
+                    dateTimeEntree: "${formObject.dateAjoute}"
                     totalHt: ${formObject.totalHT}, 
                     totalTtc: ${formObject.totalTTC}, 
                     totalTva: ${formObject.totalTVA}, 
                     numeroBand: "${formObject.nbl}",
                     details: [${articlesQueryString}],
-                    designation: "${formObject.designation}"
+                    designation: "${formObject.designation?.replace(/\n/g, "\\n")}"
                 }
             ) {
                 id
@@ -608,10 +622,10 @@ form.addEventListener("submit", (e) => {
         })
         .then((response) => response.json())
         .then(() => {
-            window.location.reload()
+            // window.location.reload()
         })
         .catch(() => {
-            window.location.reload()
+            // window.location.reload()
             console.error("Failed to create article");
         });
 
