@@ -226,7 +226,7 @@ form.addEventListener("submit", (e) => {
             mutation MyMutation {
                 createArticle(
                     categorieArticleId: "${formObject.categorieArticleId}"
-                    designation: "${formObject.designation}"
+                    designation: "${formObject.designation?.replace(/\n/g, "\\n")}"
                     nom: "${formObject.name}"
                     unite: "${formObject.unite}"
                     dateAjout: "${currentDate.slice(0, currentDate.indexOf("."))}"
@@ -235,7 +235,7 @@ form.addEventListener("submit", (e) => {
                 id
                 }
             }`;
-    
+
             fetch(window.constants.backend_url, {
                 method: "POST",
                 headers: {
