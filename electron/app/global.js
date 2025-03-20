@@ -33,5 +33,10 @@ const handleSidebarContentDependingOnUserRole = () => {
     } else {
         alert("user Date unavailable")
     }
+
+    document.getElementById("logout-btn").addEventListener("click", () => {
+        localStorage.clear();
+    })
+
 }
 

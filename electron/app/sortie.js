@@ -257,6 +257,7 @@ function getAndFillData() {
                         const htmlContent = `
                         <tr class="sortie-data-row">
                             <td>${detailSortie?.article?.id}</td>
+                            <td>${detailSortie?.article?.nom}</td>
                             <td>${detailSortie?.article?.designation}</td>
                             <td>${detailSortie?.article?.unite}</td>
                             <td>${detailSortie?.quantite}</td>

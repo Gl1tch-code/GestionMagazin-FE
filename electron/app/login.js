@@ -1,3 +1,65 @@
+// if logged in, move to next page
+document.addEventListener("DOMContentLoaded", () => {
+    console.log('sdcsdc');
+    
+    const currectUserInfos = localStorage.getItem("user-infos");
+    if(currectUserInfos !== undefined) {
+        console.log(currectUserInfos);
+        const parsedCurrectUserInfos = JSON.parse(currectUserInfos);
+        console.log(parsedCurrectUserInfos);
+        
+        if(parsedCurrectUserInfos?.role === window.constants.USERS_ROLES.admin) {
+            console.log('sdcsddc');
+            const query = `
+            query {
+                adminLogin(username: "${parsedCurrectUserInfos?.username}", password: "${parsedCurrectUserInfos?.password}") {
+                    id
+                    username
+                    password
+                }
+            }
+            `;
+
+            fetch(window.constants.backend_url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ query }),
+            }).then((response) => response.json())
+            .then(() => {
+                window.location.pathname = window.location.pathname.replace("/login.html", "/dashboard.html")
+            })
+            .catch(() => {
+                localStorage.clear();
+            });
+        } else if(parsedCurrectUserInfos?.role === window.constants.USERS_ROLES.user) {
+            const query = `
+                query {
+                    utilisateurLogin(username: "${parsedCurrectUserInfos?.username}", password: "${parsedCurrectUserInfos?.password}") {
+                        id
+                        username
+                        password
+                    }
+                }
+            `;
+
+            fetch(window.constants.backend_url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ query }),
+            }).then((response) => response.json())
+            .then(() => {
+                window.location.pathname = window.location.pathname.replace("/login.html", "/Articles.html")
+            })
+            .catch(() => {
+                localStorage.clear();
+            });
+        }
+    }
+})
 
 function showLoginForm(type) {
     const portalSection = document.getElementById('portalSection');
@@ -29,9 +91,6 @@ function backToPortal() {
     }, 300);
 }
 
-// to remove
-localStorage.clear();
-
 function loginEmployee(event) {
     event.preventDefault();
 
@@ -49,6 +108,7 @@ function loginEmployee(event) {
             utilisateurLogin(username: "${username}", password: "${password}") {
                 id
                 username
+                password
             }
         }
         `;
@@ -110,6 +170,7 @@ function loginAdmin(event) {
             adminLogin(username: "${username}", password: "${password}") {
                 id
                 username
+                password
             }
         }
         `;
