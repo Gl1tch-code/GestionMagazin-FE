@@ -15,7 +15,6 @@ function getAndFillArticlesData() {
     }`;
 
     async function fetchArticles() {
-        let stockStatus;
         fetch(window.constants.backend_url, {
             method: "POST",
             headers: {
@@ -27,7 +26,7 @@ function getAndFillArticlesData() {
         .then(data => data?.data?.getArticlesDTO)
         .then(data => {
             data.forEach((article, index) => {
-                stockStatus = article?.quantite > 50 
+                const stockStatus = article?.quantite > 50 
                     ? window.constants.STOCK_STATUS.enStock 
                     : (0 < article?.quantite && article?.quantite < 50) 
                     ? window.constants.STOCK_STATUS.faibleStock 
@@ -80,7 +79,13 @@ function getAndFillArticlesData() {
                 button.addEventListener("click", function () {
                     const index = this.closest("tr").getAttribute("data-index");
                     const article = data[index];
-                    
+
+                    const stockStatus = article?.quantite > 50 
+                    ? window.constants.STOCK_STATUS.enStock 
+                    : (0 < article?.quantite && article?.quantite < 50) 
+                    ? window.constants.STOCK_STATUS.faibleStock 
+                    : window.constants.STOCK_STATUS.ruptureDeStock;
+
                     document.getElementById("previewName").textContent = article?.nom || "N/A";
                     document.getElementById("previewUnit").textContent = article?.unite || "N/A";
                     document.getElementById("previewCategory").textContent = article?.categorieNom || "N/A";

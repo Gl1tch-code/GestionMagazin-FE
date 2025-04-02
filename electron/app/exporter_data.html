@@ -1,119 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    
     <!-- theme meta -->
     <meta name="theme-name" content="quixlab" />
-  
+
     <title>Gestion du Magasin</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="images/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/logo.png" />
     <!-- Pignose Calender -->
-    <link href="plugins/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
+    <link
+      href="plugins/pg-calendar/css/pignose.calendar.min.css"
+      rel="stylesheet"
+    />
     <!-- Chartist -->
-    <link rel="stylesheet" href="plugins/chartist/css/chartist.min.css">
-    <link rel="stylesheet" href="plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
+    <link rel="stylesheet" href="plugins/chartist/css/chartist.min.css" />
+    <link
+      rel="stylesheet"
+      href="plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css"
+    />
     <!-- Custom Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="css/style.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+  </head>
 
-
-</head>
-
-<body>
+  <body>
     <div class="main-wrapper">
-
-
-        <!--**********************************
+      <!--**********************************
             Logo start
         ***********************************-->
-        <div class="nav-header">
-            <div class="brand-logo">
-                <a href="javascript:void(0)">
-                    <!-- Logo that is always visible -->
-                    <b class="logo-abbr"><img src="images/logo.png" alt="Logo" style="width: 100px; height: auto;"> </b>
+      <div class="nav-header">
+        <div class="brand-logo">
+          <a href="javascript:void(0)">
+            <!-- Logo that is always visible -->
+            <b class="logo-abbr"
+              ><img
+                src="images/logo.png"
+                alt="Logo"
+                style="width: 100px; height: auto"
+              />
+            </b>
 
-                    <!-- Compact logo (logo2) that will be hidden when sidebar is collapsed -->
-                    <img src="images/logo2.png" alt="Compact Logo" class="logo-compact" style="max-width: 250px; height: auto; display: block;">
-                </a>
-            </div>
+            <!-- Compact logo (logo2) that will be hidden when sidebar is collapsed -->
+            <img
+              src="images/logo2.png"
+              alt="Compact Logo"
+              class="logo-compact"
+              style="max-width: 250px; height: auto; display: block"
+            />
+          </a>
         </div>
-        <!--**********************************
+      </div>
+      <!--**********************************
             Logo end
         ***********************************-->
 
-
-        <!--**********************************
+      <!--**********************************
             Début de l'en-tête
         ***********************************-->
-        <div id="navbar-placeholder"></div>
-        <script src="loadNavbar.js"></script>
-        <!--**********************************
+      <div id="navbar-placeholder"></div>
+      <script src="loadNavbar.js"></script>
+      <!--**********************************
             Fin de l'en-tête
         ***********************************-->
 
-
-
-
-        <!--**********************************
+      <!--**********************************
             Sidebar start
         ***********************************-->
-        <div id="sidebar-placeholder"></div>
-        <script src="loadSidebar.js"></script>
-        <script src="./global.js"></script>
-        <!--**********************************
+      <div class="nk-sidebar">
+        <div class="nk-nav-scroll">
+          <ul class="metismenu" id="menu">
+            <li id="dashboard-li">
+              <a href="dashboard.html" aria-expanded="false">
+                <i class="fa fa-chart-line menu-icon"></i
+                ><span class="nav-text">Dashboard</span>
+              </a>
+            </li>
+            <li id="articles-li">
+              <a href="Articles.html" aria-expanded="false">
+                <i class="fa fa-newspaper menu-icon"></i
+                ><span class="nav-text">Articles</span>
+              </a>
+            </li>
+            <!-- <li>
+                      <a href="Stock.html" aria-expanded="false">
+                          <i class="fa fa-cogs menu-icon"></i><span class="nav-text">Stock</span>
+                      
+                  </li> -->
+            <li id="expandable" class="es-expandable" data-opened="false">
+              <a
+                id="expand-icon"
+                class="has-arrow down-arrow"
+                href="javascript:void(0)"
+                aria-expanded="false"
+              >
+                <i class="fa fa-users menu-icon"></i
+                ><span class="nav-text">Les Contacts</span>
+              </a>
+
+              <ul
+                id="expandable-elements"
+                aria-expanded="false"
+                style="display: none"
+              >
+                <li><a href="partennaires.html">Partennaires </a></li>
+                <li><a href="fonctionnaires.html">Fonctionnaires </a></li>
+              </ul>
+            </li>
+
+            <!-- Submenu for "Entrée & Sortie" -->
+            <li id="expandable" class="es-expandable" data-opened="false">
+              <a
+                id="expand-icon"
+                class="has-arrow down-arrow"
+                href="javascript:void(0)"
+                aria-expanded="false"
+              >
+                <i class="icon-layers menu-icon"></i
+                ><span class="nav-text">Entrée & Sortie</span>
+              </a>
+              <ul
+                id="expandable-elements"
+                aria-expanded="false"
+                style="display: none"
+              >
+                <li><a href="entree.html">Entrée </a></li>
+                <li><a href="sortie.html">Sortie </a></li>
+              </ul>
+            </li>
+
+            <li>
+              <a href="imprimer.html" aria-expanded="false">
+                <i class="fa fa-print menu-icon"></i
+                ><span class="nav-text">Imprimer</span>
+              </a>
+            </li>
+            <li id="suivi_consommations-li">
+              <a href="suivi_consommations.html" aria-expanded="false">
+                <i class="fa fa-bolt menu-icon"></i
+                ><span class="nav-text">Suivi Consommations</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <script src="./global.js"></script>
+      <!--**********************************
             Sidebar end
         ***********************************-->
 
-        
-
-        <!--**********************************
+      <!--**********************************
             Content body start
         ***********************************-->
-        <div class="content-body">
-
+      <div class="content-body">
         <!--**********************************
             DateTime start
         ***********************************-->
-            <div class="row page-titles mx-0">
-                <!-- Div to display the current date and time -->
-                <div class="col p-md-0">
-                    <h4 class="text-dark" id="datetime"></h4>
-                </div>
-            </div>
-            
-            <!-- Link to the external JavaScript file for handling datetime -->
-            <script src="js/datetime.js"></script>            
+        <div class="row page-titles mx-0">
+          <!-- Div to display the current date and time -->
+          <div class="col p-md-0">
+            <h4 class="text-dark" id="datetime"></h4>
+          </div>
+        </div>
+
+        <!-- Link to the external JavaScript file for handling datetime -->
+        <script src="js/datetime.js"></script>
         <!--**********************************
             DateTime end
         ***********************************-->
 
-        
-            <!-- row -->
+        <!-- row -->
 
-            <div class="container-fluid">
-
-            </div>
-            <!-- #/ container -->
-        </div>
-        <!--**********************************
+        <div class="container-fluid"></div>
+        <!-- #/ container -->
+      </div>
+      <!--**********************************
             Content body end
         ***********************************-->
-        
-        
-        <!--**********************************
+
+      <!--**********************************
             Footer start
         ***********************************-->
-        <div class="footer">
-            <div class="copyright">
-                <p>Gestion du Magasin</a> 2025</p>
-            </div>
+      <div class="footer">
+        <div class="copyright">
+          <p>Gestion du Magasin 2025</p>
         </div>
-        <!--**********************************
+      </div>
+      <!--**********************************
             Footer end
         ***********************************-->
     </div>
@@ -129,7 +208,5 @@
     <script src="js/settings.js"></script>
     <script src="js/gleek.js"></script>
     <script src="js/styleSwitcher.js"></script>
-
-</body>
-
+  </body>
 </html>

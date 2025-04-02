@@ -1,324 +1,915 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    
     <!-- theme meta -->
     <meta name="theme-name" content="quixlab" />
-  
+
     <title>Gestion du Magasin</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="images/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/logo.png" />
     <!-- Pignose Calender -->
-    <link href="plugins/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
+    <link
+      href="plugins/pg-calendar/css/pignose.calendar.min.css"
+      rel="stylesheet"
+    />
     <!-- Chartist -->
-    <link rel="stylesheet" href="plugins/chartist/css/chartist.min.css">
-    <link rel="stylesheet" href="plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
+    <link rel="stylesheet" href="plugins/chartist/css/chartist.min.css" />
+    <link
+      rel="stylesheet"
+      href="plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css"
+    />
     <!-- Custom Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="css/style.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
 
+    <style>
+      .exportDataTemplate {
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
+        position: absolute;
+        z-index: 99999;
 
-</head>
+        .exportContent {
+          width: 100%;
+        }
+        .subtitle-infos {
+          width: 100%;
+          margin-bottom: 20px;
+        }
+        .end.subtitle-infos {
+          display: flex;
+          justify-content: end;
+        }
+        .start.subtitle-infos {
+          display: flex;
+          flex-direction: column;
+          justify-content: start;
+        }
+        .item-value-black {
+          color: gray;
+          font-size: 16px;
+        }
+        .item-title-gray {
+          color: black;
+          font-size: 16px;
+        }
 
-<body>
+        table {
+          margin-top: 30px;
+          width: 100%;
+          border-collapse: collapse;
+        }
+        th,
+        td {
+          font-size: 16px;
+          border: 1px solid black;
+          color: black;
+          padding: 5px 10px;
+          text-align: left;
+          width: 20px;
+        }
+      }
+    </style>
+    <style type="text/css" media="print">
+      @page {
+        size: landscape;
+      }
+    </style>
+  </head>
+
+  <body>
     <div class="main-wrapper">
-
-
-        <!--**********************************
+      <!--**********************************
             Logo start
         ***********************************-->
-        <div class="nav-header">
-            <div class="brand-logo">
-                <a href="javascript:void(0)">
-                    <!-- Logo that is always visible -->
-                    <b class="logo-abbr"><img src="images/logo.png" alt="Logo" style="width: 100px; height: auto;"> </b>
+      <div class="nav-header">
+        <div class="brand-logo">
+          <a href="javascript:void(0)">
+            <!-- Logo that is always visible -->
+            <b class="logo-abbr"
+              ><img
+                src="images/logo.png"
+                alt="Logo"
+                style="width: 100px; height: auto"
+              />
+            </b>
 
-                    <!-- Compact logo (logo2) that will be hidden when sidebar is collapsed -->
-                    <img src="images/logo2.png" alt="Compact Logo" class="logo-compact" style="max-width: 250px; height: auto; display: block;">
-                </a>
-            </div>
+            <!-- Compact logo (logo2) that will be hidden when sidebar is collapsed -->
+            <img
+              src="images/logo2.png"
+              alt="Compact Logo"
+              class="logo-compact"
+              style="max-width: 250px; height: auto; display: block"
+            />
+          </a>
         </div>
-        <!--**********************************
+      </div>
+      <!--**********************************
             Logo end
         ***********************************-->
 
-
-        <!--**********************************
+      <!--**********************************
             Début de l'en-tête
         ***********************************-->
-        <div id="navbar-placeholder"></div>
-        <script src="loadNavbar.js"></script>
-        <!--**********************************
+      <div id="navbar-placeholder"></div>
+      <script src="loadNavbar.js"></script>
+      <!--**********************************
             Fin de l'en-tête
         ***********************************-->
 
-
-
-
-        <!--**********************************
+      <!--**********************************
             Sidebar start
         ***********************************-->
-        <div id="sidebar-placeholder"></div>
-        <script src="loadSidebar.js"></script>
-        <script src="./global.js"></script>
-        <!--**********************************
+      <div class="nk-sidebar">
+        <div class="nk-nav-scroll">
+          <ul class="metismenu" id="menu">
+            <li id="dashboard-li">
+              <a href="dashboard.html" aria-expanded="false">
+                <i class="fa fa-chart-line menu-icon"></i
+                ><span class="nav-text">Dashboard</span>
+              </a>
+            </li>
+            <li id="articles-li">
+              <a href="Articles.html" aria-expanded="false">
+                <i class="fa fa-newspaper menu-icon"></i
+                ><span class="nav-text">Articles</span>
+              </a>
+            </li>
+            <!-- <li>
+                      <a href="Stock.html" aria-expanded="false">
+                          <i class="fa fa-cogs menu-icon"></i><span class="nav-text">Stock</span>
+                      </a>
+                  </li> -->
+            <li id="expandable" class="es-expandable" data-opened="false">
+              <a
+                id="expand-icon"
+                class="has-arrow down-arrow"
+                href="javascript:void(0)"
+                aria-expanded="false"
+              >
+                <i class="fa fa-users menu-icon"></i
+                ><span class="nav-text">Les Contacts</span>
+              </a>
+
+              <ul
+                id="expandable-elements"
+                aria-expanded="false"
+                style="display: none"
+              >
+                <li><a href="partennaires.html">Partennaires</a></li>
+                <li><a href="fonctionnaires.html">Fonctionnaires</a></li>
+              </ul>
+            </li>
+
+            <!-- Submenu for "Entrée & Sortie" -->
+            <li id="expandable" class="es-expandable" data-opened="false">
+              <a
+                id="expand-icon"
+                class="has-arrow down-arrow"
+                href="javascript:void(0)"
+                aria-expanded="false"
+              >
+                <i class="icon-layers menu-icon"></i
+                ><span class="nav-text">Entrée & Sortie</span>
+              </a>
+              <ul
+                id="expandable-elements"
+                aria-expanded="false"
+                style="display: none"
+              >
+                <li><a href="entree.html">Entrée</a></li>
+                <li><a href="sortie.html">Sortie</a></li>
+              </ul>
+            </li>
+
+            <li>
+              <a href="imprimer.html" aria-expanded="false">
+                <i class="fa fa-print menu-icon"></i
+                ><span class="nav-text">Imprimer</span>
+              </a>
+            </li>
+            <li id="suivi_consommations-li">
+              <a href="suivi_consommations.html" aria-expanded="false">
+                <i class="fa fa-bolt menu-icon"></i
+                ><span class="nav-text">Suivi Consommations</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <script>
+        // loadSidebar.js
+        document.addEventListener("DOMContentLoaded", async function () {
+          const sidebarPlaceholder = document.getElementById(
+            "sidebar-placeholder"
+          );
+          document.querySelectorAll("#expandable").forEach((expandable) => {
+            const anchor = expandable.querySelector("#expand-icon");
+
+            anchor.addEventListener("click", () => {
+              if (expandable.dataset.opened === "false") {
+                openExpandeableSideBarTab(expandable, anchor);
+              } else {
+                closeExpandeableSideBarTab(expandable, anchor);
+              }
+            });
+          });
+
+          if (window.isGlobalJsLoaded) {
+            handleSidebarContentDependingOnUserRole();
+          }
+          const sideBar = document.querySelector(".nk-sidebar");
+          const sidebarToggleIcon = document.querySelector(
+            ".sidebar-toggle-icon"
+          );
+
+          if (sidebarToggleIcon) {
+            sidebarToggleIcon.addEventListener("click", () => {
+              if (sideBar !== null) {
+                if (
+                  sideBar.style.left === "" ||
+                  sideBar.style.left === "-100%"
+                ) {
+                  sideBar.style.left = "0px";
+                } else {
+                  sideBar.style.left = "-100%";
+                }
+
+                console.log(sideBar.style.left);
+              }
+            });
+          } else {
+            console.warn(".sidebar-toggle-icon not found!");
+          }
+
+          const refreshIcon = document.querySelector(".refresh-page-icon");
+          if (refreshIcon) {
+            refreshIcon.addEventListener("click", () => {
+              window.location.reload();
+            });
+          } else {
+            console.warn(".refresh-page-icon not found!");
+          }
+        });
+
+        function openExpandeableSideBarTab(expandable, anchor) {
+          expandable.dataset.opened = "true";
+          anchor.className = "has-arrow up-arrow";
+          expandable.querySelector("#expandable-elements").style.display =
+            "block";
+        }
+
+        function closeExpandeableSideBarTab(expandable, anchor) {
+          expandable.dataset.opened = "false";
+          anchor.className = "has-arrow down-arrow";
+          expandable.querySelector("#expandable-elements").style.display =
+            "none";
+        }
+      </script>
+      <script src="./global.js"></script>
+      <!--**********************************
             Sidebar end
         ***********************************-->
 
-        
-
-        <!--**********************************
+      <!--**********************************
             Content body start
         ***********************************-->
-        <div class="content-body">
-
-
+      <div class="content-body">
         <!--**********************************
             DateTime start
         ***********************************-->
-            <div class="row page-titles mx-0">
-                <!-- Div to display the current date and time -->
-                <div class="col p-md-0">
-                    <h4 class="text-dark" id="datetime"></h4>
-                </div>
-                            <!-- Link to the external JavaScript file for handling datetime -->
-            <script src="js/datetime.js"></script>   
-            </div>         
-        <!--**********************************
-            DateTime end
-        ***********************************-->
-
-    
-
-            <div class="container-fluid">
-
-                <!-- L'éta du Stock -->
-                <div class="row mb-4">
-                    <div class="col-12">
-                        <h5 class="mb-3">Imprimer les stockes</h5>
-                    </div>
-                    <!-- Filter by Category -->
-                    <div class="col-md-4">
-                      <div class="form-group">
-                        <label for="categoryFilter" class="form-label">Par Catégorie</label>
-                        <select class="form-control" id="articleType" required>
-                            <option value="">Toutes les ctégories</option>
-                            <option value="Type A">FOURNITURE DE BUREAU</option>
-                            <option value="Type B">FOURNITURE INFORMATIQUE</option>
-                            <option value="Type C">FOURNITURE ECLAIRAGE PUBLIC</option>
-                        </select>
-                      </div>
-                    </div>
-                  
-                    <!-- Date Filter -->
-                    <div class="col-md-4">
-                      <div class="form-group">
-                        <label for="dateFilter" class="form-label">Date Filtre</label>
-                        <input type="date" id="dateFilter" class="form-control">
-                      </div>
-                    </div>
-                  
-                    <!-- Print Button -->
-                    <div class="col-md-4 d-flex align-items-center">
-                        <button id="printStock" class="btn btn-green btn-block py-3 px-3">
-                            <i class="fa fa-box"></i> Imprimer L'état de Stock
-                          </button>                          
-                    </div>
-
-                </div>
-
-                <!-- Entré -->
-                <div class="row mb-4">
-                    <div class="col-12">
-                        <h5 class="mb-3">Imprimer les entrées</h5>
-                    </div>
-                    
-                    <!-- Filter by Category -->
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="entryCategoryFilter" class="form-label">Par Catégorie</label>
-                            <select class="form-control" id="articleType" required>
-                                <option value="">Toutes les ctégories</option>
-                                <option value="Type A">FOURNITURE DE BUREAU</option>
-                                <option value="Type B">FOURNITURE INFORMATIQUE</option>
-                                <option value="Type C">FOURNITURE ECLAIRAGE PUBLIC</option>
-                            </select>
-                        </div>
-                    </div>
-            
-                    <!-- Date Filter -->
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="entryDateFilter" class="form-label">Date Filtre</label>
-                            <input type="date" id="entryDateFilter" class="form-control">
-                        </div>
-                    </div>
-            
-                    <!-- Submit Button -->
-                    <div class="col-md-4 d-flex align-items-center">
-                        <button id="entrySubmit" class="btn btn-green btn-block py-3 px-3">
-                            <i class="fa fa-exchange-alt"></i> Imprimer les Entrées
-                          </button>                          
-                    </div>
-                </div>
-            
-                <!-- Sortie -->
-                <div class="row">
-                    <div class="col-12">
-                        <h5 class="mb-3">Imprimer les sorties</h5>
-                    </div>
-                    
-                    <!-- Filter by Division (Service) -->
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="divisionFilter" class="form-label">Par Division</label>
-                            <select class="form-control" id="division" name="division">
-                                <option value="division1">Division de Travaux et Construction</option>
-                                <option value="division2">Division des Ressources Humaines</option>
-                            </select>
-                        </div>
-                    </div>
-            
-                    <!-- Filter by Category -->
-                    <!-- <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="sortieCategoryFilter" class="form-label">Par Catégorie</label>
-                            <select id="sortieCategoryFilter" class="form-control">
-                                <option value="" disabled selected>Choisir une catégorie</option>
-                                <option value="1">Catégorie 1</option>
-                                <option value="2">Catégorie 2</option>
-                                <option value="3">Catégorie 3</option>
-                            </select>
-                        </div>
-                    </div> -->
-            
-                    <!-- Date Filter -->
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="sortieDateFilter" class="form-label">Date Filtre</label>
-                            <input type="date" id="sortieDateFilter" class="form-control">
-                        </div>
-                    </div>
-            
-                    <!-- Submit Button -->
-                    <div class="col-md-4 d-flex align-items-center mt-3">
-                        <button id="sortieSubmit" class="btn btn-green btn-block py-3 px-3">
-                            <i class="fa fa-exchange-alt"></i> Imprimer les sorties
-                          </button>                          
-                    </div>
-                </div>
-            
-            </div>
-            
-
-            <!-- Print Preview Modal -->
-            <div class="modal fade" id="printPreviewModal" tabindex="-1" aria-labelledby="printPreviewLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="printPreviewLabel">Aperçu avant impression</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" id="printPreviewContent">
-                        <!-- Dynamic content will be loaded here -->
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                        <button type="button" class="btn btn-green" id="confirmPrint">
-                        <i class="fa fa-print"></i> Imprimer
-                        </button>
-                    </div>
-                    </div>
-                </div>
-            </div>
-              
-
-
-            <!-- #/ container -->
+        <div class="row page-titles mx-0">
+          <!-- Div to display the current date and time -->
+          <div class="col p-md-0">
+            <h4 class="text-dark" id="datetime"></h4>
+          </div>
+          <!-- Link to the external JavaScript file for handling datetime -->
+          <script src="js/datetime.js"></script>
         </div>
-        <!--**********************************
+
+        <div class="container-fluid">
+          <!-- L'éta du Stock -->
+          <div class="row mb-4">
+            <div class="col-12">
+              <h5 class="mb-3">Imprimer les stockes</h5>
+            </div>
+            <!-- Filter by Category -->
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="categoryFilter" class="form-label"
+                  >Par Catégorie</label
+                >
+                <select class="form-control" id="articleType" required>
+                  <option value="">Toutes les ctégories</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Date Filter -->
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="dateFilter" class="form-label">Date Filtre</label>
+                <input
+                  type="datetime-local"
+                  id="artStartDateFilter"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="dateFilter" class="form-label">Date Filtre</label>
+                <input
+                  type="datetime-local"
+                  id="artEndDateFilter"
+                  class="form-control"
+                />
+              </div>
+            </div>
+
+            <!-- Print Button -->
+            <div class="col-md-3 d-flex align-items-center">
+              <button id="printStock" class="btn btn-green btn-block py-3 px-3">
+                <i class="fa fa-box"></i> Imprimer L'état de Stock
+              </button>
+            </div>
+          </div>
+
+          <!-- Entré -->
+          <div class="row mb-4">
+            <div class="col-12">
+              <h5 class="mb-3">Imprimer les entrées</h5>
+            </div>
+
+            <!-- Filter by Category -->
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="entryCategoryFilter" class="form-label"
+                  >Par Catégorie</label
+                >
+                <select class="form-control" id="entreeArticleType" required>
+                  <option value="">Toutes les ctégories</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Date Filter -->
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="entryDateFilter" class="form-label"
+                  >Date Filtre</label
+                >
+                <input
+                  type="datetime-local"
+                  id="entryStartDateFilter"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="entryDateFilter" class="form-label"
+                  >Date Filtre</label
+                >
+                <input
+                  type="datetime-local"
+                  id="entryEndDateFilter"
+                  class="form-control"
+                />
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="col-md-3 d-flex align-items-center">
+              <button
+                id="entrySubmit"
+                class="btn btn-green btn-block py-3 px-3"
+              >
+                <i class="fa fa-exchange-alt"></i> Imprimer les Entrées
+              </button>
+            </div>
+          </div>
+
+          <!-- Sortie -->
+          <div class="row">
+            <div class="col-12" style="flex: 100%">
+              <h5 class="mb-3">Imprimer les sorties</h5>
+            </div>
+
+            <!-- Filter type -->
+            <div class="col-md-2" style="flex: 20%; max-width: 20%">
+              <div class="form-group">
+                <label for="sort-filterType" class="form-label"
+                  >Filtrer par:
+                </label>
+                <select
+                  class="form-control"
+                  id="sort-filterType"
+                  name="filterType"
+                >
+                  <option value="1" selected>Par division</option>
+                  <option value="2">Par service</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-2" style="flex: 20%; max-width: 20%">
+              <div class="form-group">
+                <label
+                  for="sortieFilter"
+                  class="form-label"
+                  id="sort-filtre-label"
+                  >Par
+                </label>
+                <select id="sortieFilter" class="form-control">
+                  <option
+                    value=""
+                    disabled
+                    selected
+                    id="default-sort-filter-value"
+                  >
+                    Choisir votre division
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Date Filter -->
+            <div class="col-md-2" style="flex: 20%; max-width: 20%">
+              <div class="form-group">
+                <label for="sortieStartDateFilter" class="form-label"
+                  >Date Filtre</label
+                >
+                <input
+                  type="datetime-local"
+                  id="sortieStartDateFilter"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div class="col-md-2" style="flex: 20%; max-width: 20%">
+              <div class="form-group">
+                <label for="sortieEndDateFilter" class="form-label"
+                  >Date Filtre</label
+                >
+                <input
+                  type="datetime-local"
+                  id="sortieEndDateFilter"
+                  class="form-control"
+                />
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div
+              class="col-md-2 d-flex align-items-center"
+              style="flex: 20%; max-width: 20%"
+            >
+              <button
+                id="sortieSubmit"
+                class="btn btn-green btn-block py-3 px-3"
+              >
+                <i class="fa fa-exchange-alt"></i> Imprimer les sorties
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Print Preview Modal -->
+        <div
+          class="modal fade"
+          id="printPreviewModal"
+          tabindex="-1"
+          aria-labelledby="printPreviewLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="printPreviewLabel">
+                  Aperçu avant impression
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body" id="printPreviewContent">
+                <!-- Dynamic content will be loaded here -->
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Fermer
+                </button>
+                <button type="button" class="btn btn-green" id="confirmPrint">
+                  <i class="fa fa-print"></i> Imprimer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- #/ container -->
+      </div>
+      <!--**********************************
             Content body end
         ***********************************-->
-        
-        
-        <!--**********************************
+
+      <!--**********************************
             Footer start
         ***********************************-->
-        <div class="footer">
-            <div class="copyright">
-                <p>Gestion du Magasin</a> 2025</p>
-            </div>
+      <div class="footer">
+        <div class="copyright">
+          <p>Gestion du Magasin 2025</p>
         </div>
-        <!--**********************************
+      </div>
+      <!--**********************************
             Footer end
         ***********************************-->
     </div>
-    <!--**********************************
-        Main wrapper end
-    ***********************************-->
 
-
-    <!-- JavaScript of Printing Functions -->
-     <!-- !! There are a problem here I will fix it then !! -->
-        <script>
-            function handlePreview(sectionId) {
-                const modalContent = document.getElementById('printPreviewContent');
-                const filters = {};
-
-                if (sectionId === 'stock') {
-                    filters.category = document.getElementById('categoryFilter').value;
-                    filters.date = document.getElementById('dateFilter').value;
-                } else if (sectionId === 'entry') {
-                    filters.category = document.getElementById('entryCategoryFilter').value;
-                    filters.date = document.getElementById('entryDateFilter').value;
-                } else if (sectionId === 'sortie') {
-                    filters.division = document.getElementById('divisionFilter').value;
-                    filters.date = document.getElementById('sortieDateFilter').value;
-                }
-
-                modalContent.innerHTML = `
-                    <p><strong>Filtres appliqués:</strong></p>
-                    <ul>
-                        ${Object.entries(filters).map(([key, value]) => `<li>${key}: ${value || 'Non spécifié'}</li>`).join('')}
-                    </ul>
-                    <p><strong>Contenu des données:</strong></p>
-                    <p>Les données filtrées apparaîtront ici...</p>
-                `;
-
-                const modal = new bootstrap.Modal(document.getElementById('printPreviewModal'));
-                modal.show();
-
-                document.getElementById('confirmPrint').onclick = function () {
-                    const printWindow = window.open('', '_blank');
-                    printWindow.document.write('<html><head><title>Impression</title></head><body>');
-                    printWindow.document.write(modalContent.innerHTML);
-                    printWindow.document.write('</body></html>');
-                    printWindow.document.close();
-                    printWindow.print();
-                };
-            }
-
-            document.getElementById('printStock').addEventListener('click', () => handlePreview('stock'));
-            document.getElementById('entrySubmit').addEventListener('click', () => handlePreview('entry'));
-            document.getElementById('sortieSubmit').addEventListener('click', () => handlePreview('sortie'));
-        </script>
-    <!-- The end of this fucking script -->
-
-
-
-
-    <!--**********************************
-        Scripts
-    ***********************************-->
+    <script src="./imprimer.js"></script>
     <script src="plugins/common/common.min.js"></script>
     <script src="js/custom.min.js"></script>
     <script src="js/settings.js"></script>
     <script src="js/gleek.js"></script>
     <script src="js/styleSwitcher.js"></script>
-</body>
 
+    <div
+      id="entree-exportDataTemplate"
+      class="exportDataTemplate"
+      style="display: none; justify-content: center; align-items: start"
+    >
+      <div class="exportContent">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+          "
+        >
+          <div class="logo1">
+            <img
+              style="height: 120px; width: auto"
+              src="images/royaumeMarocFR.png"
+              alt=""
+            />
+          </div>
+          <div class="logo2">
+            <img
+              style="height: 120px; width: auto"
+              src="images/logo.jpeg"
+              alt=""
+            />
+          </div>
+          <div class="logo3">
+            <img
+              style="height: 120px; width: auto"
+              src="images/royaumeMarocAR.png"
+              alt=""
+            />
+          </div>
+        </div>
+
+        <h1
+          style="
+            text-decoration: underline;
+            font-size: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+          "
+        >
+          Liste des Entrées des Articles au Magasin <br />Bon de commandes et
+          marchés
+        </h1>
+
+        <div class="subtitle-infos">
+          <div
+            style="
+              display: flex;
+              justify-content: center;
+              gap: 15px;
+              flex-direction: row;
+            "
+          >
+            <span class="item-title-gray"
+              ><span>Du date: </span
+              ><span class="item-value-black" id="fromDate"
+                >..........................</span
+              ></span
+            >
+            <span class="item-title-gray"
+              ><span>au date: </span
+              ><span class="item-value-black" id="toDate"
+                >..........................</span
+              ></span
+            >
+          </div>
+        </div>
+
+        <div class="subtitle-infos start">
+          <div
+            style="
+              display: flex;
+              justify-content: start;
+              gap: 15px;
+              flex-direction: column;
+            "
+          >
+            <span class="item-title-gray"
+              ><span style="margin-left: 20px">Responsable de l'entrée : </span
+              ><span class="item-value-black" id="responsable"
+                >..........................</span
+              ></span
+            >
+          </div>
+        </div>
+
+        <table id="entr-table">
+          <tr>
+            <th>N° BL / Marché</th>
+            <th>Fournisseur</th>
+            <th>Désignation</th>
+            <th>Date de Réception</th>
+            <th>Total (TTC)</th>
+            <th>Total (HT)</th>
+          </tr>
+
+          <!--     Montants    -->
+          <tr id="montants">
+            <td style="border: none"></td>
+            <td style="border: none"></td>
+            <td style="border: none"></td>
+            <td style="border: none"></td>
+            <td>Montant total HT</td>
+            <td id="montant-total-ht"></td>
+          </tr>
+          <tr>
+            <td style="border: none"></td>
+            <td style="border: none"></td>
+            <td style="border: none"></td>
+            <td style="border: none"></td>
+            <td>Montant total TTC</td>
+            <td id="montant-total-ttc"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div
+      id="art-exportDataTemplate"
+      class="exportDataTemplate"
+      style="display: none; justify-content: center; align-items: start"
+    >
+      <div class="exportContent">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+          "
+        >
+          <div class="logo1">
+            <img
+              style="height: 120px; width: auto"
+              src="images/royaumeMarocFR.png"
+              alt=""
+            />
+          </div>
+          <div class="logo2">
+            <img
+              style="height: 120px; width: auto"
+              src="images/logo.jpeg"
+              alt=""
+            />
+          </div>
+          <div class="logo3">
+            <img
+              style="height: 120px; width: auto"
+              src="images/royaumeMarocAR.png"
+              alt=""
+            />
+          </div>
+        </div>
+
+        <h1
+          style="
+            text-decoration: underline;
+            font-size: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+          "
+        >
+          Liste Quantité des Articles au Magasin <br />Par catégorie
+        </h1>
+
+        <div class="subtitle-infos">
+          <div
+            style="
+              display: flex;
+              justify-content: center;
+              gap: 15px;
+              flex-direction: row;
+            "
+          >
+            <span class="item-title-gray"
+              ><span>Du date: </span
+              ><span class="item-value-black" id="art-fromDate"
+                >..........................</span
+              ></span
+            >
+            <span class="item-title-gray"
+              ><span>au date: </span
+              ><span class="item-value-black" id="art-toDate"
+                >..........................</span
+              ></span
+            >
+          </div>
+        </div>
+
+        <div class="subtitle-infos start">
+          <div
+            style="
+              display: flex;
+              justify-content: start;
+              gap: 15px;
+              flex-direction: column;
+            "
+          >
+            <span class="item-title-gray"
+              ><span style="margin-left: 20px">Responsable de l'entrée : </span
+              ><span class="item-value-black" id="art-responsable"
+                >..........................</span
+              ></span
+            >
+          </div>
+        </div>
+
+        <div class="subtitle-infos start">
+          <div
+            style="
+              display: flex;
+              justify-content: end;
+              gap: 15px;
+              flex-direction: column;
+            "
+          >
+            <span class="item-title-gray"
+              ><span style="margin-left: 20px">Catégorie : </span
+              ><span class="item-value-black" id="art-category"
+                >..........................</span
+              ></span
+            >
+          </div>
+        </div>
+
+        <table id="art-table">
+          <tr>
+            <th>Nom d’article</th>
+            <th>Désignation</th>
+            <th>Catégorie</th>
+            <th>Unité</th>
+            <th>Quantité Stock</th>
+          </tr>
+
+          <!--     Montants    -->
+          <tr id="art-montants" style="display: none"></tr>
+        </table>
+      </div>
+    </div>
+
+    <div
+      id="sort-exportDataTemplate"
+      class="exportDataTemplate"
+      style="display: none; justify-content: center; align-items: start"
+    >
+      <div class="exportContent">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+          "
+        >
+          <div class="logo1">
+            <img
+              style="height: 120px; width: auto"
+              src="images/royaumeMarocFR.png"
+              alt=""
+            />
+          </div>
+          <div class="logo2">
+            <img
+              style="height: 120px; width: auto"
+              src="images/logo.jpeg"
+              alt=""
+            />
+          </div>
+          <div class="logo3">
+            <img
+              style="height: 120px; width: auto"
+              src="images/royaumeMarocAR.png"
+              alt=""
+            />
+          </div>
+        </div>
+
+        <h1
+          style="
+            text-decoration: underline;
+            font-size: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+          "
+        >
+          Liste des sorties des Articles au Magasin <br />Par fonctionnaires
+        </h1>
+
+        <div class="subtitle-infos">
+          <div
+            style="
+              display: flex;
+              justify-content: center;
+              gap: 15px;
+              flex-direction: row;
+            "
+          >
+            <span class="item-title-gray"
+              ><span>Du date: </span
+              ><span class="item-value-black" id="sort-fromDate"
+                >..........................</span
+              ></span
+            >
+            <span class="item-title-gray"
+              ><span>au date: </span
+              ><span class="item-value-black" id="sort-toDate"
+                >..........................</span
+              ></span
+            >
+          </div>
+        </div>
+
+        <div class="subtitle-infos start">
+          <div
+            style="
+              display: flex;
+              justify-content: start;
+              gap: 15px;
+              flex-direction: column;
+            "
+          >
+            <span class="item-title-gray"
+              ><span style="margin-left: 20px">Responsable de l'entrée : </span
+              ><span class="item-value-black" id="sort-responsable"
+                >..........................</span
+              ></span
+            ><span class="item-title-gray"
+            ><span style="margin-left: 20px">Filtrer par : </span
+            ><span class="item-value-black" id="sort-filteredBy"
+              >..........................</span
+            ></span
+          >
+          </div>
+        </div>
+
+
+        <table id="sort-table">
+          <tr>
+            <th>N° Sortie</th>
+            <th>Fonctionnaire</th>
+            <th>Service</th>
+            <th>Montant</th>
+            <th>Date de Sortie</th>
+          </tr>
+
+          <!--     Montants    -->
+          <tr id="sort-montants">
+            <th style="border: none;"></th>
+            <th style="border: none;"></th>
+            <th style="border: none;"></th>
+            <th>Montant Totale</th>
+            <th id="sort-montant-total"></th>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </body>
 </html>

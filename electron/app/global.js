@@ -1,6 +1,6 @@
 // constants.js
 // const domain = "http://localhost:4444"
-const domain = "http://5.189.154.85"
+const domain = "http://192.168.137.212:4444"
 const backend_url = domain + "/graphql";
 const USERS_ROLES = {
     user: "USER",

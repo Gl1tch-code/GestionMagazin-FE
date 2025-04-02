@@ -78,8 +78,154 @@
         <!--**********************************
             Sidebar start
         ***********************************-->
-        <div id="sidebar-placeholder"></div>
-        <script src="./loadSidebar.js"></script>
+        <div class="nk-sidebar">
+        <div class="nk-nav-scroll">
+          <ul class="metismenu" id="menu">
+            <li id="dashboard-li">
+              <a href="dashboard.html" aria-expanded="false">
+                <i class="fa fa-chart-line menu-icon"></i
+                ><span class="nav-text">Dashboard</span>
+              </a>
+            </li>
+            <li id="articles-li">
+              <a href="Articles.html" aria-expanded="false">
+                <i class="fa fa-newspaper menu-icon"></i
+                ><span class="nav-text">Articles</span>
+              </a>
+            </li>
+            <!-- <li>
+                      <a href="Stock.html" aria-expanded="false">
+                          <i class="fa fa-cogs menu-icon"></i><span class="nav-text">Stock</span>
+                      </a>
+                  </li> -->
+            <li id="expandable" class="es-expandable" data-opened="false">
+              <a
+                id="expand-icon"
+                class="has-arrow down-arrow"
+                href="javascript:void(0)"
+                aria-expanded="false"
+              >
+                <i class="fa fa-users menu-icon"></i
+                ><span class="nav-text">Les Contacts</span>
+              </a>
+
+              <ul
+                id="expandable-elements"
+                aria-expanded="false"
+                style="display: none"
+              >
+                <li><a href="partennaires.html">Partennaires</a></li>
+                <li><a href="fonctionnaires.html">Fonctionnaires</a></li>
+              </ul>
+            </li>
+
+            <!-- Submenu for "Entrée & Sortie" -->
+            <li id="expandable" class="es-expandable" data-opened="false">
+              <a
+                id="expand-icon"
+                class="has-arrow down-arrow"
+                href="javascript:void(0)"
+                aria-expanded="false"
+              >
+                <i class="icon-layers menu-icon"></i
+                ><span class="nav-text">Entrée & Sortie</span>
+              </a>
+              <ul
+                id="expandable-elements"
+                aria-expanded="false"
+                style="display: none"
+              >
+                <li><a href="entree.html">Entrée</a></li>
+                <li><a href="sortie.html">Sortie</a></li>
+              </ul>
+            </li>
+
+            <li>
+              <a href="imprimer.html" aria-expanded="false">
+                <i class="fa fa-print menu-icon"></i
+                ><span class="nav-text">Imprimer</span>
+              </a>
+            </li>
+            <li id="suivi_consommations-li">
+              <a href="suivi_consommations.html" aria-expanded="false">
+                <i class="fa fa-bolt menu-icon"></i
+                ><span class="nav-text">Suivi Consommations</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+        
+      <script>
+        // loadSidebar.js
+        document.addEventListener("DOMContentLoaded", async function () {
+          const sidebarPlaceholder = document.getElementById(
+            "sidebar-placeholder"
+          );
+          document.querySelectorAll("#expandable").forEach((expandable) => {
+            const anchor = expandable.querySelector("#expand-icon");
+
+            anchor.addEventListener("click", () => {
+              if (expandable.dataset.opened === "false") {
+                openExpandeableSideBarTab(expandable, anchor);
+              } else {
+                closeExpandeableSideBarTab(expandable, anchor);
+              }
+            });
+          });
+
+          if (window.isGlobalJsLoaded) {
+            handleSidebarContentDependingOnUserRole();
+          }
+          const sideBar = document.querySelector(".nk-sidebar");
+          const sidebarToggleIcon = document.querySelector(
+            ".sidebar-toggle-icon"
+          );
+
+          if (sidebarToggleIcon) {
+            sidebarToggleIcon.addEventListener("click", () => {
+              if (sideBar !== null) {
+                if (
+                  sideBar.style.left === "" ||
+                  sideBar.style.left === "-100%"
+                ) {
+                  sideBar.style.left = "0px";
+                } else {
+                  sideBar.style.left = "-100%";
+                }
+
+                console.log(sideBar.style.left);
+              }
+            });
+          } else {
+            console.warn(".sidebar-toggle-icon not found!");
+          }
+
+          const refreshIcon = document.querySelector(".refresh-page-icon");
+          if (refreshIcon) {
+            refreshIcon.addEventListener("click", () => {
+              window.location.reload();
+            });
+          } else {
+            console.warn(".refresh-page-icon not found!");
+          }
+        });
+
+        function openExpandeableSideBarTab(expandable, anchor) {
+          expandable.dataset.opened = "true";
+          anchor.className = "has-arrow up-arrow";
+          expandable.querySelector("#expandable-elements").style.display =
+            "block";
+        }
+
+        function closeExpandeableSideBarTab(expandable, anchor) {
+          expandable.dataset.opened = "false";
+          anchor.className = "has-arrow down-arrow";
+          expandable.querySelector("#expandable-elements").style.display =
+            "none";
+        }
+      </script>
         <script src="./global.js"></script>
         <!--**********************************
             Sidebar end

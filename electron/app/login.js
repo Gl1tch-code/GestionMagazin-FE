@@ -1,7 +1,5 @@
 // if logged in, move to next page
-document.addEventListener("DOMContentLoaded", () => {
-    console.log('sdcsdc');
-    
+document.addEventListener("DOMContentLoaded", () => {    
     const currectUserInfos = localStorage.getItem("user-infos");
     if(currectUserInfos !== undefined) {
         console.log(currectUserInfos);
@@ -9,7 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(parsedCurrectUserInfos);
         
         if(parsedCurrectUserInfos?.role === window.constants.USERS_ROLES.admin) {
-            console.log('sdcsddc');
             const query = `
             query {
                 adminLogin(username: "${parsedCurrectUserInfos?.username}", password: "${parsedCurrectUserInfos?.password}") {

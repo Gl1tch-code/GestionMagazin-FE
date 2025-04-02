@@ -252,11 +252,11 @@ function getAndFillData() {
 
                     let finalHtmlContent = "";
 
-                    sortie?.detailSorties?.forEach(detailSortie => {
+                    sortie?.detailSorties?.forEach((detailSortie, indexx) => {
 
                         const htmlContent = `
                         <tr class="sortie-data-row">
-                            <td>${detailSortie?.article?.id}</td>
+                            <td>${indexx+1}</td>
                             <td>${detailSortie?.article?.nom}</td>
                             <td>${detailSortie?.article?.designation}</td>
                             <td>${detailSortie?.article?.unite}</td>
@@ -277,7 +277,6 @@ function getAndFillData() {
                     document.getElementById("service").textContent = sortie?.fonctionnaire?.serviceClass?.nom;
 
                     document.getElementById("responsable").textContent = JSON.parse(localStorage.getItem("user-infos"))?.username;
-                    document.getElementById("emplacement").textContent = sortie?.motif
 
                     document.getElementById("montants").insertAdjacentHTML("beforebegin", finalHtmlContent)
 
