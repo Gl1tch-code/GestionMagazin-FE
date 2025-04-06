@@ -65,60 +65,48 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("artStartDateFilter")?.value;
     const artEndDateFilter = document.getElementById("artEndDateFilter")?.value;
 
-    // const query = `
-    //     query MyQuery {
-    //       printArticles (
-    //         startDate: "${artStartDateFilter}",
-    //         endDate: "${artEndDateFilter}",
-    //         categorieId: "${categoryId}"
-    //       ) {
-    //           id
-    //           unite
-    //           nom
-    //           designation
-    //           quantite
-    //           categorieNom
-    //           categorieId
-    //       }
-    //     }`;
-
-    const query = `
-    query MyQuery {
-      getArticlesDTO {
-          id
-          unite
-          nom
-          designation
-          quantite
-          categorieNom
-          categorieId
-      }
-    }`;
-    fetch(window.constants.backend_url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ query }),
-    })
-      .then((result) => {
-        return result.json();
+    if (artStartDateFilter?.trim() === "") {
+      alert("Date de debut est requis !");
+    } else if (artEndDateFilter?.trim() === "") {
+      alert("Date de fin est requis !");
+    } else {
+      const query = `
+        query MyQuery {
+          getArticlesDTO {
+              id
+              unite
+              nom
+              designation
+              quantite
+              categorieNom
+              categorieId
+          }
+        }`;
+      fetch(window.constants.backend_url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query }),
       })
-      .then((data) => {
-        console.log({ data });
+        .then((result) => {
+          return result.json();
+        })
+        .then((data) => {
+          console.log({ data });
 
-        if (data?.data?.getArticlesDTO?.length > 0) {
-          document.getElementById("art-fromDate").textContent =
-            formatDate(artStartDateFilter);
-          document.getElementById("art-toDate").textContent =
-            formatDate(artEndDateFilter);
-          document.getElementById("art-responsable").textContent = JSON.parse(
-            localStorage.getItem("user-infos")
-          )?.username;
-          document.getElementById("art-category").textContent =
-            data?.data?.getArticlesDTO?.[0]?.categorieNom;
+          if (data?.data?.getArticlesDTO?.length > 0) {
+            document.getElementById("art-fromDate").textContent =
+              formatDate(artStartDateFilter);
+            document.getElementById("art-toDate").textContent =
+              formatDate(artEndDateFilter);
+            document.getElementById("art-responsable").textContent = JSON.parse(
+              localStorage.getItem("user-infos")
+            )?.username;
+            document.getElementById("art-category").textContent =
+              data?.data?.getArticlesDTO?.[0]?.categorieNom;
 
-          const printStyles = `
+            const printStyles = `
             @media print {
               .main-wrapper,
               .main-wrapper *,
@@ -135,11 +123,11 @@ document.addEventListener("DOMContentLoaded", () => {
             }
           `;
 
-          const styleTag = document.createElement("style");
-          styleTag.innerHTML = printStyles;
-          document.head.appendChild(styleTag);
+            const styleTag = document.createElement("style");
+            styleTag.innerHTML = printStyles;
+            document.head.appendChild(styleTag);
 
-          document.getElementById("art-table").innerHTML = `          
+            document.getElementById("art-table").innerHTML = `          
             <tr>
               <th>Nom d’article</th>
               <th>Désignation</th>
@@ -153,9 +141,9 @@ document.addEventListener("DOMContentLoaded", () => {
             </tr>
           `;
 
-          let finalHtmlContent = "";
-          data?.data?.getArticlesDTO?.forEach((art) => {
-            const htmlContent = `
+            let finalHtmlContent = "";
+            data?.data?.getArticlesDTO?.forEach((art) => {
+              const htmlContent = `
               <tr class="sortie-data-row">
                   <td>${art?.nom}</td>
                   <td>${art?.designation}</td>
@@ -163,17 +151,18 @@ document.addEventListener("DOMContentLoaded", () => {
                   <td>${art?.unite}</td>
                   <td>${art?.quantite} pcs</td>
               </tr>`;
-            finalHtmlContent += htmlContent;
-          });
-          document
-            .getElementById("art-montants")
-            .insertAdjacentHTML("beforebegin", finalHtmlContent);
+              finalHtmlContent += htmlContent;
+            });
+            document
+              .getElementById("art-montants")
+              .insertAdjacentHTML("beforebegin", finalHtmlContent);
 
-          window.print();
+            window.print();
 
-          styleTag.remove();
-        }
-      });
+            styleTag.remove();
+          }
+        });
+    }
 
     console.log({ categoryId, artStartDateFilter, artEndDateFilter });
   });
@@ -186,7 +175,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const entryEndDateFilter =
       document.getElementById("entryEndDateFilter")?.value;
 
-    const query = `
+    if (entryStartDateFilter?.trim() === "") {
+      alert("Date de debut est requis !");
+    } else if (entryEndDateFilter?.trim() === "") {
+      alert("Date de fin est requis !");
+    } else {
+      const query = `
         query MyQuery {
             printingEntree(startDate: "${entryStartDateFilter}", endDate: "${entryEndDateFilter}", categorieId: "${categoryId}") {
                 id
@@ -199,106 +193,107 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }`;
 
-    fetch(window.constants.backend_url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ query }),
-    })
-      .then((result) => {
-        return result.json();
+      fetch(window.constants.backend_url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query }),
       })
-      .then((data) => {
-        console.log(data?.data?.printingEntree?.length);
-        let totalHT = 0;
-        let totalTTC = 0;
+        .then((result) => {
+          return result.json();
+        })
+        .then((data) => {
+          console.log(data?.data?.printingEntree?.length);
+          let totalHT = 0;
+          let totalTTC = 0;
 
-        if (data?.data?.printingEntree?.length > 0 || true) {
-          document.getElementById("fromDate").textContent =
-            formatDate(entryStartDateFilter);
-          document.getElementById("toDate").textContent =
-            formatDate(entryEndDateFilter);
-          document.getElementById("responsable").textContent = JSON.parse(
-            localStorage.getItem("user-infos")
-          )?.username;
+          if (data?.data?.printingEntree?.length > 0 || true) {
+            document.getElementById("fromDate").textContent =
+              formatDate(entryStartDateFilter);
+            document.getElementById("toDate").textContent =
+              formatDate(entryEndDateFilter);
+            document.getElementById("responsable").textContent = JSON.parse(
+              localStorage.getItem("user-infos")
+            )?.username;
 
-          const printStyles = `
-            @media print {
-              .main-wrapper,
-              .main-wrapper *,
-              #loader-row,
-              #loader-row * {
-                display: none !important;
-              }
-              #entree-exportDataTemplate {
-                display: flex !important;
-              }
-            }
-          `;
-
-          const styleTag = document.createElement("style");
-          styleTag.innerHTML = printStyles;
-          document.head.appendChild(styleTag);
-          document.getElementById("entr-table").innerHTML = `          
-            <tr>
-              <th>N° BL / Marché</th>
-              <th>Fournisseur</th>
-              <th>Désignation</th>
-              <th>Date de Réception</th>
-              <th>Total (TTC)</th>
-              <th>Total (HT)</th>
-            </tr>
-
-            <!--     Montants    -->
-            <tr id="montants">
-              <td style="border: none;"></td>
-              <td style="border: none;"></td>
-              <td style="border: none;"></td>
-              <td style="border: none;"></td>
-              <td>Montant total HT</td>
-              <td id="montant-total-ht"></td>
-            </tr>
-            <tr>
-              <td style="border: none;"></td>
-              <td style="border: none;"></td>
-              <td style="border: none;"></td>
-              <td style="border: none;"></td>
-              <td>Montant total TTC</td>
-              <td id="montant-total-ttc"></td>
-            </tr>
-          `;
-
-          let finalHtmlContent = "";
-          data?.data?.printingEntree?.forEach((printing) => {
-            const htmlContent = `
-                <tr class="sortie-data-row">
-                    <td>${printing?.numeroBand}</td>
-                    <td>${printing?.partenaireNom}</td>
-                    <td>${printing?.designation}</td>
-                    <td>${new Date(
-                      printing?.dateTimeEntree
-                    ).toLocaleDateString()}</td>
-                    <td>${printing?.totalTtc} MAD</td>
-                    <td>${printing?.totalHt} MAD</td>
-                </tr>`;
-            finalHtmlContent += htmlContent;
-
-            totalHT += printing?.totalHt;
-            totalTTC += printing?.totalTtc;
-          });
-          document
-            .getElementById("montants")
-            .insertAdjacentHTML("beforebegin", finalHtmlContent);
-
-          document.getElementById("montant-total-ht").textContent =
-            totalHT + " MAD";
-          document.getElementById("montant-total-ttc").textContent =
-            totalTTC + " MAD";
-          window.print();
-          styleTag.remove();
+            const printStyles = `
+        @media print {
+          .main-wrapper,
+          .main-wrapper *,
+          #loader-row,
+          #loader-row * {
+            display: none !important;
+          }
+          #entree-exportDataTemplate {
+            display: flex !important;
+          }
         }
-      });
+      `;
+
+            const styleTag = document.createElement("style");
+            styleTag.innerHTML = printStyles;
+            document.head.appendChild(styleTag);
+            document.getElementById("entr-table").innerHTML = `          
+        <tr>
+          <th>N° BL / Marché</th>
+          <th>Fournisseur</th>
+          <th>Désignation</th>
+          <th>Date de Réception</th>
+          <th>Total (TTC)</th>
+          <th>Total (HT)</th>
+        </tr>
+
+        <!--     Montants    -->
+        <tr id="montants">
+          <td style="border: none;"></td>
+          <td style="border: none;"></td>
+          <td style="border: none;"></td>
+          <td style="border: none;"></td>
+          <td>Montant total HT</td>
+          <td id="montant-total-ht"></td>
+        </tr>
+        <tr>
+          <td style="border: none;"></td>
+          <td style="border: none;"></td>
+          <td style="border: none;"></td>
+          <td style="border: none;"></td>
+          <td>Montant total TTC</td>
+          <td id="montant-total-ttc"></td>
+        </tr>
+      `;
+
+            let finalHtmlContent = "";
+            data?.data?.printingEntree?.forEach((printing) => {
+              const htmlContent = `
+            <tr class="sortie-data-row">
+                <td>${printing?.numeroBand}</td>
+                <td>${printing?.partenaireNom}</td>
+                <td>${printing?.designation}</td>
+                <td>${new Date(
+                  printing?.dateTimeEntree
+                ).toLocaleDateString()}</td>
+                <td>${printing?.totalTtc} MAD</td>
+                <td>${printing?.totalHt} MAD</td>
+            </tr>`;
+              finalHtmlContent += htmlContent;
+
+              totalHT += printing?.totalHt;
+              totalTTC += printing?.totalTtc;
+            });
+            document
+              .getElementById("montants")
+              .insertAdjacentHTML("beforebegin", finalHtmlContent);
+
+            document.getElementById("montant-total-ht").textContent =
+              totalHT + " MAD";
+            document.getElementById("montant-total-ttc").textContent =
+              totalTTC + " MAD";
+            window.print();
+            styleTag.remove();
+          }
+        });
+    }
   });
 
   let sortieFilterType = "1";
@@ -334,7 +329,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const sortieFilter = document.getElementById("sortieFilter");
         sortieFilter.innerHTML = `
-          <option value="" disabled selected id="default-sort-filter-value"> Choisir votre division </option>`;
+          <option value="" disabled selected id="default-sort-filter-value"> Tout </option>`;
 
         if (sortieFilterType === "1") {
           data?.getAllDivisions?.forEach((division) => {
@@ -347,7 +342,7 @@ document.addEventListener("DOMContentLoaded", () => {
           document.getElementById("sort-filtre-label").textContent =
             "Par division";
           document.getElementById("default-sort-filter-value").textContent =
-            "Choisir votre division";
+            "Tout";
         } else if (sortieFilterType === "2") {
           data?.getAllServiceClasses?.forEach((serviceClasses) => {
             sortieFilter.insertAdjacentHTML(
@@ -358,7 +353,7 @@ document.addEventListener("DOMContentLoaded", () => {
           document.getElementById("sort-filtre-label").textContent =
             "Par service";
           document.getElementById("default-sort-filter-value").textContent =
-            "Choisir votre service";
+            "Tout";
         }
       });
   }
@@ -379,34 +374,43 @@ document.addEventListener("DOMContentLoaded", () => {
       serviceOrDivisionId,
     });
 
-    document.getElementById("sort-fromDate").textContent = formatDate(
-      sortieStartDateFilter
-    );
-    document.getElementById("sort-toDate").textContent =
-      formatDate(sortieEndDateFilter);
-    document.getElementById("sort-filteredBy").textContent =
-      sortieFilterType === "1"
-        ? `Division (${
-            ServicesAndDivisionsData?.getAllDivisions?.find(
-              (elem) => elem?.id === serviceOrDivisionId
-            )?.nom
-          })`
-        : `Service (${
-            ServicesAndDivisionsData?.getAllServiceClasses?.find(
-              (elem) => elem?.id === serviceOrDivisionId
-            )?.nom
-          })`;
-    document.getElementById("sort-responsable").textContent = JSON.parse(
-      localStorage.getItem("user-infos")
-    )?.username;
+    console.log({
+      sortieStartDateFilter: sortieStartDateFilter?.trim(),
+    });
 
-    const query = `
+    if (sortieStartDateFilter?.trim() === "") {
+      alert("Date de debut est requis !");
+    } else if (sortieEndDateFilter?.trim() === "") {
+      alert("Date de fin est requis !");
+    } else {
+      document.getElementById("sort-fromDate").textContent = formatDate(
+        sortieStartDateFilter
+      );
+      document.getElementById("sort-toDate").textContent =
+        formatDate(sortieEndDateFilter);
+      document.getElementById("sort-filteredBy").textContent =
+        sortieFilterType === "1"
+          ? `Division (${
+              ServicesAndDivisionsData?.getAllDivisions?.find(
+                (elem) => elem?.id === serviceOrDivisionId
+              )?.nom
+            })`
+          : `Service (${
+              ServicesAndDivisionsData?.getAllServiceClasses?.find(
+                (elem) => elem?.id === serviceOrDivisionId
+              )?.nom
+            })`;
+      document.getElementById("sort-responsable").textContent = JSON.parse(
+        localStorage.getItem("user-infos")
+      )?.username;
+
+      const query = `
         query MyQuery {
           printSortiesService (
             startDate: "${sortieStartDateFilter}", 
             endDate: "${sortieEndDateFilter}", 
             someId: "${serviceOrDivisionId}"
-            isService: ${sortieFilterType !== '1'}
+            isService: ${sortieFilterType !== "1"}
           ) {
             fonctionnaireNom
             montant
@@ -414,20 +418,20 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         }`;
 
-    fetch(window.constants.backend_url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ query }),
-    })
-      .then((result) => {
-        return result.json();
+      fetch(window.constants.backend_url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query }),
       })
-      .then(({ data }) => {
-        let totalMontant = 0;
+        .then((result) => {
+          return result.json();
+        })
+        .then(({ data }) => {
+          let totalMontant = 0;
 
-        const printStyles = `
+          const printStyles = `
           @media print {
             .main-wrapper,
             .main-wrapper *,
@@ -441,31 +445,31 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         `;
 
-        const styleTag = document.createElement("style");
-        styleTag.innerHTML = printStyles;
-        document.head.appendChild(styleTag);
-        document.getElementById("sort-table").innerHTML = `          
-          <tr>
-            <th>N° Sortie</th>
-            <th>Fonctionnaire</th>
-            <th>${sortieFilterType === "1" ? "Division" : "Service"}</th>
-            <th>Montant</th>
-            <th>Date de Sortie</th>
-          </tr>
+          const styleTag = document.createElement("style");
+          styleTag.innerHTML = printStyles;
+          document.head.appendChild(styleTag);
+          document.getElementById("sort-table").innerHTML = `          
+            <tr>
+              <th>N° Sortie</th>
+              <th>Fonctionnaire</th>
+              <th>${sortieFilterType === "1" ? "Division" : "Service"}</th>
+              <th>Montant</th>
+              <th>Date de Sortie</th>
+            </tr>
 
-          <!--     Montants    -->
-          <tr id="sort-montants">
-            <th style="border: none;"></th>
-            <th style="border: none;"></th>
-            <th style="border: none;"></th>
-            <th>Montant Totale</th>
-            <th id="sort-montant-total"></th>
-          </tr>
-        `;
+            <!--     Montants    -->
+            <tr id="sort-montants">
+              <th style="border: none;"></th>
+              <th style="border: none;"></th>
+              <th style="border: none;"></th>
+              <th>Montant Totale</th>
+              <th id="sort-montant-total"></th>
+            </tr>
+          `;
 
-        let finalHtmlContent = "";
-        data?.printSortiesService?.forEach((printing, index) => {
-          const htmlContent = `
+          let finalHtmlContent = "";
+          data?.printSortiesService?.forEach((printing, index) => {
+            const htmlContent = `
               <tr class="sortie-data-row">
                   <td>${index + 1}</td>
                   <td>${printing?.fonctionnaireNom}</td>
@@ -481,20 +485,22 @@ document.addEventListener("DOMContentLoaded", () => {
                   <td>${printing?.montant} MAD</td>
                   <td>${formatDate(printing?.dateDeSortie)}</td>
               </tr>`;
-          finalHtmlContent += htmlContent;
+            finalHtmlContent += htmlContent;
 
-          totalMontant += Number(printing?.montant) || 0;
+            totalMontant += Number(printing?.montant) || 0;
+          });
+          console.log(totalMontant);
+
+          document
+            .getElementById("sort-montants")
+            .insertAdjacentHTML("beforebegin", finalHtmlContent);
+          document.getElementById("sort-montant-total").textContent =
+            totalMontant + " MAD";
+
+          window.print();
+          styleTag.remove();
         });
-        console.log(totalMontant);
-        
-        document
-          .getElementById("sort-montants")
-          .insertAdjacentHTML("beforebegin", finalHtmlContent);
-        document.getElementById("sort-montant-total").textContent = totalMontant + " MAD";
-
-        window.print();
-        styleTag.remove();
-      });
+    }
   });
 
   document.getElementById("sort-filterType").addEventListener("change", (e) => {

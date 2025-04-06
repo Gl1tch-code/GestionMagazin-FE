@@ -1,4 +1,3 @@
-
 // start
 const currentUser = JSON.parse(localStorage.getItem("user-infos"));
 function getAndFillData() {
@@ -291,7 +290,8 @@ function getAndFillData() {
               document.getElementById("responsable").textContent = JSON.parse(
                 localStorage.getItem("user-infos")
               )?.username;
-              document.getElementById("firstArtCategory").textContent = entree?.detailEntrees?.[0]?.article?.categorieArticle?.nom;
+              document.getElementById("firstArtCategory").textContent =
+                entree?.detailEntrees?.[0]?.article?.categorieArticle?.nom;
 
               document.getElementById("identite").textContent =
                 entree?.partenaire?.nom;
@@ -335,7 +335,6 @@ query MyQuery {
 }`;
 
 async function fetchArticlesAndPartenersQuery() {
-
   fetch(window.constants.backend_url, {
     method: "POST",
     headers: {
@@ -376,7 +375,6 @@ async function fetchArticlesAndPartenersQuery() {
           );
         });
       });
-
     })
     .catch(() => {
       console.error("Failed to fetch articles and partners");
@@ -384,11 +382,10 @@ async function fetchArticlesAndPartenersQuery() {
 }
 fetchArticlesAndPartenersQuery();
 
-
-
-
 // Handle adding a new article row
-document.getElementById("addRowBtn").addEventListener("click", () => handleAddArticleRow());
+document
+  .getElementById("addRowBtn")
+  .addEventListener("click", () => handleAddArticleRow());
 
 function handleAddArticleRow(
   currentArticleId = "",
@@ -396,10 +393,10 @@ function handleAddArticleRow(
   currentArticleQuantite = "",
   index
 ) {
-    const articlesContainer = document.getElementById("articlesContainer");
-    const articleRow = document.createElement("div");
-    articleRow.classList.add("article-row", "mb-2", "new-select-article-row");
-    articleRow.innerHTML = `
+  const articlesContainer = document.getElementById("articlesContainer");
+  const articleRow = document.createElement("div");
+  articleRow.classList.add("article-row", "mb-2", "new-select-article-row");
+  articleRow.innerHTML = `
         <select name="selectArticles[]" class="form-control select-article">
             <option value="" default>Toutes les articles</option>
         </select>
@@ -408,49 +405,43 @@ function handleAddArticleRow(
         <button type="button" class="btn btn-danger btn-sm delete-row-btn">Supprimer</button>
     `;
 
-    articlesContainer.appendChild(articleRow);
+  articlesContainer.appendChild(articleRow);
 
-    const firstSelect = document.querySelector(".article-row .select-article");
-    const newSelect = articleRow.querySelector(".select-article");
-    newSelect.innerHTML = firstSelect.innerHTML; // Copy options
+  const firstSelect = document.querySelector(".article-row .select-article");
+  const newSelect = articleRow.querySelector(".select-article");
+  newSelect.innerHTML = firstSelect.innerHTML; // Copy options
 
-    newSelect.value = currentArticleId;
-    
-    articleRow.querySelector(".delete-row-btn").addEventListener("click", () => {
-        articleRow.remove();
-        updateDeleteButtonState();
-    });
+  newSelect.value = currentArticleId;
 
+  articleRow.querySelector(".delete-row-btn").addEventListener("click", () => {
+    articleRow.remove();
     updateDeleteButtonState();
+  });
+
+  updateDeleteButtonState();
 }
 
 function updateDeleteButtonState() {
-    const articleRows = document.querySelectorAll(".article-row");
-    if (articleRows.length <= 1) {
-        const deleteButton = articleRows[0].querySelector(".delete-row-btn");
-        deleteButton.disabled = true;
-        deleteButton.style.cursor = "not-allowed";
-        deleteButton.style.backgroundColor = "#9097c4";
-        deleteButton.style.borderColor = "#9097c4";
-    } else {
-        articleRows.forEach((row) => {
-            const deleteButton = row.querySelector('.delete-row-btn');
-            deleteButton.disabled = false;
-            deleteButton.style.cursor = "pointer";
-            deleteButton.style.backgroundColor = "";
-            deleteButton.style.borderColor = "";
-        })
-    }
+  const articleRows = document.querySelectorAll(".article-row");
+  if (articleRows.length <= 1) {
+    const deleteButton = articleRows[0].querySelector(".delete-row-btn");
+    deleteButton.disabled = true;
+    deleteButton.style.cursor = "not-allowed";
+    deleteButton.style.backgroundColor = "#9097c4";
+    deleteButton.style.borderColor = "#9097c4";
+  } else {
+    articleRows.forEach((row) => {
+      const deleteButton = row.querySelector(".delete-row-btn");
+      deleteButton.disabled = false;
+      deleteButton.style.cursor = "pointer";
+      deleteButton.style.backgroundColor = "";
+      deleteButton.style.borderColor = "";
+    });
+  }
 }
 
 // Initial call to populate the first article row and set initial state
 updateDeleteButtonState();
-
-
-
-
-
-
 
 document
   .querySelector(".show-add-entree-modal-btn")
@@ -705,3 +696,16 @@ async function deleteFile(id, container) {
 }
 
 addFileInput();
+
+
+document.getElementById("searchInput").addEventListener("keyup", (e) => {
+  document.querySelectorAll("#entree-table-body tr")?.forEach((elem) => {
+      const textElem = elem.querySelector(".entree-nbl")?.textContent?.trim()?.toLowerCase();    
+      const textElem2 = elem.querySelector(".entree-designation")?.textContent?.trim()?.toLowerCase();    
+      if(!textElem.includes(e.target.value?.trim()?.toLowerCase()) && !textElem2.includes(e.target.value?.trim()?.toLowerCase())) {
+          elem.style.display = 'none'
+      } else {
+          elem.style.display = 'table-row'
+      }
+  })
+})

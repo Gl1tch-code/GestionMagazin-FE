@@ -1,8 +1,8 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", async function() {
     const navbarPlaceholder = document.getElementById("navbar-placeholder");
 
     // Fetch the navbar HTML and insert it
-    fetch("includes/navbar.html")
+    await fetch("includes/navbar.html")
     .then(respone => {
         if(!respone.ok){
             throw new Error("Failed to load navbar");
@@ -16,5 +16,9 @@ document.addEventListener("DOMContentLoaded", function() {
         console.error("Error loading navbar: ", error);
         navbarPlaceholder.innerHTML = "<p>Failed to load navbar</p>";
     });
+
+    if(window.isGlobalJsLoaded === true) {
+        handleSidebarContentDependingOnUserRole()
+    }
 
 });

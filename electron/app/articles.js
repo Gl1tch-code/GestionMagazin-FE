@@ -1,5 +1,30 @@
 const currentUser = JSON.parse(localStorage.getItem("user-infos"));
 
+            const query = `
+            query {
+                adminLogin(username: "${currentUser?.username}", password: "${currentUser?.password}") {
+                    id
+                    username
+                    password
+                }
+            }
+            `;
+
+            fetch(window.constants.backend_url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ query }),
+            }).then((response) => response.json())
+            .then(() => {
+                // window.location.pathname = window.location.pathname.replace("/login.html", "/dashboard.html")
+            })
+            .catch(() => {
+                localStorage.clear();
+            });
+
+
 function getAndFillArticlesData() {
     const query = `
     query MyQuery {
@@ -325,3 +350,15 @@ confirmDeleteBtn.addEventListener("click", function () {
 
     
 });
+
+
+document.getElementById("searchInput").addEventListener("keyup", (e) => {
+    document.querySelectorAll("#articles-table tr")?.forEach((elem) => {
+        const textElem = elem.querySelector(".article-name")?.textContent?.trim()?.toLowerCase();    
+        if(!textElem.includes(e.target.value?.trim()?.toLowerCase())) {
+            elem.style.display = 'none'
+        } else {
+            elem.style.display = 'table-row'
+        }
+    })
+})

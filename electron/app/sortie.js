@@ -261,22 +261,21 @@ function getAndFillData() {
                             <td>${detailSortie?.article?.designation}</td>
                             <td>${detailSortie?.article?.unite}</td>
                             <td>${detailSortie?.quantite}</td>
-                            <td>${detailSortie?.article?.detailEntrees?.[0]?.prixUnitaire} DH</td>
-                            <td>${detailSortie?.article?.detailEntrees?.[0]?.prixUnitaire * detailSortie?.quantite} DH</td>
                         </tr>`;
                         finalHtmlContent+= htmlContent;
     
-                        document.getElementById("montant-total-ht").textContent = `${detailSortie?.article?.detailEntrees?.[0]?.prixUnitaire * detailSortie?.quantite} DH`;
-                        document.getElementById("montant-tva").textContent = `${detailSortie?.article?.detailEntrees?.[0]?.tva || 0} DH`;
-                        document.getElementById("montant-total-ttc").textContent = `${(detailSortie?.article?.detailEntrees?.[0]?.prixUnitaire * detailSortie?.quantite) + (detailSortie?.article?.detailEntrees?.[0]?.tva || 0)} DH`;
+                        // document.getElementById("montant-total-ht").textContent = `${detailSortie?.article?.detailEntrees?.[0]?.prixUnitaire * detailSortie?.quantite} DH`;
+                        // document.getElementById("montant-tva").textContent = `${detailSortie?.article?.detailEntrees?.[0]?.tva || 0} DH`;
+                        // document.getElementById("montant-total-ttc").textContent = `${(detailSortie?.article?.detailEntrees?.[0]?.prixUnitaire * detailSortie?.quantite) + (detailSortie?.article?.detailEntrees?.[0]?.tva || 0)} DH`;
                     })
                     document.getElementById("date").textContent = new Date().toLocaleDateString();
 
                     document.getElementById("benificiaire").textContent = `${sortie?.fonctionnaire?.prenom} ${sortie?.fonctionnaire?.nom}`;
                     document.getElementById("division").textContent = sortie?.fonctionnaire?.serviceClass?.division?.nom;
                     document.getElementById("service").textContent = sortie?.fonctionnaire?.serviceClass?.nom;
+                    document.getElementById("motif").textContent = `    ${sortie?.motif}`;
 
-                    document.getElementById("responsable").textContent = JSON.parse(localStorage.getItem("user-infos"))?.username;
+                    // document.getElementById("responsable").textContent = JSON.parse(localStorage.getItem("user-infos"))?.username;
 
                     document.getElementById("montants").insertAdjacentHTML("beforebegin", finalHtmlContent)
 
@@ -301,6 +300,7 @@ function getAndFillData() {
         getAllFonctionnaires {
             id
             nom
+            prenom
         }
         getAllDivisions {
             id
@@ -331,7 +331,7 @@ function getAndFillData() {
             
             data?.getAllFonctionnaires?.forEach(fonctionnaire => {
                 selectedFonctionnaire.insertAdjacentHTML("beforeend", 
-                    `<option value="${fonctionnaire?.id}">${fonctionnaire?.nom}</option>`)
+                    `<option value="${fonctionnaire?.id}">${fonctionnaire?.nom} ${fonctionnaire?.prenom}</option>`)
             })
  
             const selectedDivision = document.getElementById("selectedDivision");
@@ -529,3 +529,22 @@ confirmDeleteBtn.addEventListener("click", function () {
         console.error("Failed to delete article");
     });
 });
+
+
+document.getElementById("searchInputSortie").addEventListener("keyup", (e) => {
+    document.querySelectorAll("#sortie-table-body tr")?.forEach((elem) => {
+        const textElem = elem.querySelector(".sortie-sortieNum")?.textContent?.trim()?.toLowerCase();    
+        const textElem2 = elem.querySelector(".sortie-fonctionnaire")?.textContent?.trim()?.toLowerCase();    
+        const textElem3 = elem.querySelector(".sortie-division")?.textContent?.trim()?.toLowerCase();    
+        const textElem4 = elem.querySelector(".sortie-service")?.textContent?.trim()?.toLowerCase();    
+        if(!textElem.includes(e.target.value?.trim()?.toLowerCase()) 
+            && !textElem2.includes(e.target.value?.trim()?.toLowerCase())
+            && !textElem3.includes(e.target.value?.trim()?.toLowerCase())
+            && !textElem4.includes(e.target.value?.trim()?.toLowerCase())
+        ) {
+            elem.style.display = 'none'
+        } else {
+            elem.style.display = 'table-row'
+        }
+      })
+})

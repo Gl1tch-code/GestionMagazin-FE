@@ -224,9 +224,6 @@
             });
           });
 
-          if (window.isGlobalJsLoaded) {
-            handleSidebarContentDependingOnUserRole();
-          }
           const sideBar = document.querySelector(".nk-sidebar");
           const sidebarToggleIcon = document.querySelector(
             ".sidebar-toggle-icon"
@@ -437,7 +434,7 @@
                     selected
                     id="default-sort-filter-value"
                   >
-                    Choisir votre division
+                    Tout
                   </option>
                 </select>
               </div>
@@ -447,7 +444,7 @@
             <div class="col-md-2" style="flex: 20%; max-width: 20%">
               <div class="form-group">
                 <label for="sortieStartDateFilter" class="form-label"
-                  >Date Filtre</label
+                  >Date de debut Filtre</label
                 >
                 <input
                   type="datetime-local"
@@ -459,7 +456,7 @@
             <div class="col-md-2" style="flex: 20%; max-width: 20%">
               <div class="form-group">
                 <label for="sortieEndDateFilter" class="form-label"
-                  >Date Filtre</label
+                  >Date de finie Filtre</label
                 >
                 <input
                   type="datetime-local"
